@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2018-2022 The Bitcoin Core developers
+# Copyright (c) 2024 The ScashX developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test bitcoin-wallet."""
@@ -17,6 +18,9 @@ from test_framework.util import (
     sha256sum_file,
 )
 
+# !SCASHX
+from test_framework.test_framework import CHAIN_TYPE_FROM_SUBDIR
+# !SCASHX END
 
 class ToolWalletTest(BitcoinTestFramework):
     def add_options(self, parser):
@@ -26,13 +30,18 @@ class ToolWalletTest(BitcoinTestFramework):
         self.num_nodes = 1
         self.setup_clean_chain = True
         self.rpc_timeout = 120
+        # !SCASHX
+        self.extra_args = [["-walletrbf=1"]]  # ScashX sets default to false, test assumes true
+        # !SCASHX END
 
     def skip_test_if_missing_module(self):
         self.skip_if_no_wallet()
         self.skip_if_no_wallet_tool()
 
     def bitcoin_wallet_process(self, *args):
-        default_args = ['-datadir={}'.format(self.nodes[0].datadir_path), '-chain=%s' % self.chain]
+        #! SCASHX
+        default_args = ['-datadir={}'.format(self.nodes[0].datadir_path), '-chain=%s' % CHAIN_TYPE_FROM_SUBDIR[self.chain] ]
+        #! SCASHX END
         if not self.options.descriptors and 'create' in args:
             default_args.append('-legacy')
 
@@ -186,7 +195,9 @@ class ToolWalletTest(BitcoinTestFramework):
         self.assert_raises_tool_error("Error parsing command line arguments: Invalid command 'help'", 'help')
         self.assert_raises_tool_error('Error: Additional arguments provided (create). Methods do not take arguments. Please refer to `-help`.', 'info', 'create')
         self.assert_raises_tool_error('Error parsing command line arguments: Invalid parameter -foo', '-foo')
-        self.assert_raises_tool_error('No method provided. Run `bitcoin-wallet -help` for valid methods.')
+        # !SCASHX
+        self.assert_raises_tool_error('No method provided. Run `scashx-wallet -help` for valid methods.')
+        # !SCASHX END
         self.assert_raises_tool_error('Wallet name must be provided when creating a new wallet.', 'create')
         locked_dir = self.nodes[0].wallets_path
         error = 'Error initializing wallet database environment "{}"!'.format(locked_dir)

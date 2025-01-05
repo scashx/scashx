@@ -1,5 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2022 The Bitcoin Core developers
+// Copyright (c) 2024 The ScashX developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -123,6 +124,19 @@ std::unique_ptr<const CChainParams> CreateChainParams(const ArgsManager& args, c
         ReadRegTestArgs(args, opts);
         return CChainParams::RegTest(opts);
     }
+    // !SCASHX
+    case ChainType::SCASHXREGTEST: {
+        auto opts = CChainParams::RegTestOptions{};
+        ReadRegTestArgs(args, opts);
+        return CChainParams::ScashXRegTest(opts);
+    }
+    case ChainType::SCASHXTESTNET: {
+        return CChainParams::ScashXTestNet();
+    }
+    case ChainType::SCASHXMAIN: {
+        return CChainParams::ScashXMain();
+    }
+    // !SCASHX END
     }
     assert(false);
 }

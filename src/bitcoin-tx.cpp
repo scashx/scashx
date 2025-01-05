@@ -104,14 +104,18 @@ static int AppInitRawTx(int argc, char* argv[])
 
     if (argc < 2 || HelpRequested(gArgs) || gArgs.IsArgSet("-version")) {
         // First part of help message is specific to this utility
-        std::string strUsage = PACKAGE_NAME " bitcoin-tx utility version " + FormatFullVersion() + "\n";
+        // !SCASHX
+        std::string strUsage = PACKAGE_NAME " scashx-tx utility version " + FormatFullVersion() + "\n";
+        // !SCASHX END
 
         if (gArgs.IsArgSet("-version")) {
             strUsage += FormatParagraph(LicenseInfo());
         } else {
             strUsage += "\n"
-                "Usage:  bitcoin-tx [options] <hex-tx> [commands]  Update hex-encoded bitcoin transaction\n"
-                "or:     bitcoin-tx [options] -create [commands]   Create hex-encoded bitcoin transaction\n"
+                // !SCASHX
+                "Usage:  scashx-tx [options] <hex-tx> [commands]  Update hex-encoded scashx transaction\n"
+                "or:     scashx-tx [options] -create [commands]   Create hex-encoded scashx transaction\n"
+                // !SCASHX END
                 "\n";
             strUsage += gArgs.GetHelpMessage();
         }

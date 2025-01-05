@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2022 The Bitcoin Core developers
+// Copyright (c) 2024 The ScashX developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -35,10 +36,14 @@
 #include <utility>
 #include <variant>
 
-const char * const BITCOIN_CONF_FILENAME = "bitcoin.conf";
+const char * const BITCOIN_CONF_FILENAME = "scashx.conf";
 const char * const BITCOIN_SETTINGS_FILENAME = "settings.json";
 
 ArgsManager gArgs;
+
+// !SCASHX
+static bool fExecutableNamedScashX;
+// !SCASHX END
 
 /**
  * Interpret a string argument as a boolean.
@@ -142,7 +147,9 @@ std::set<std::string> ArgsManager::GetUnsuitableSectionOnlyArgs() const
     if (m_network.empty()) return std::set<std::string> {};
 
     // if it's okay to use the default section for this network, don't worry
-    if (m_network == ChainTypeToString(ChainType::MAIN)) return std::set<std::string> {};
+    // !SCASHX
+    if (m_network == ChainTypeToString(ChainType::SCASHXMAIN) || m_network == ChainTypeToString(ChainType::MAIN)) return std::set<std::string> {};
+    // !SCASHX END
 
     for (const auto& arg : m_network_only_args) {
         if (OnlyHasDefaultSectionSetting(m_settings, m_network, SettingName(arg))) {
@@ -156,6 +163,11 @@ std::list<SectionInfo> ArgsManager::GetUnrecognizedSections() const
 {
     // Section names to be recognized in the config file.
     static const std::set<std::string> available_sections{
+        // !SCASHX
+        ChainTypeToString(ChainType::SCASHXREGTEST),
+        ChainTypeToString(ChainType::SCASHXTESTNET),
+        ChainTypeToString(ChainType::SCASHXMAIN),
+        // !SCASHX END
         ChainTypeToString(ChainType::REGTEST),
         ChainTypeToString(ChainType::SIGNET),
         ChainTypeToString(ChainType::TESTNET),
@@ -178,6 +190,11 @@ bool ArgsManager::ParseParameters(int argc, const char* const argv[], std::strin
 {
     LOCK(cs_args);
     m_settings.command_line_options.clear();
+
+    // !SCASHX
+    std::string filename = ToLower(fs::PathFromString(argv[0]).lexically_normal().filename().string());
+    fExecutableNamedScashX = filename.find("scashx") != std::string::npos;
+    // !SCASHX END
 
     for (int i = 1; i < argc; i++) {
         std::string key(argv[i]);
@@ -689,7 +706,9 @@ fs::path GetDefaultDataDir()
     // Unix-like: ~/.bitcoin
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "Bitcoin";
+    // !SCASHX
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "ScashX";
+    // !SCASHX END
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -699,10 +718,14 @@ fs::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // macOS
-    return pathRet / "Library/Application Support/Bitcoin";
+    // !SCASHX
+    return pathRet / "Library/Application Support/ScashX";
+    // !SCASHX END
 #else
     // Unix-like
-    return pathRet / ".bitcoin";
+    // !SCASHX
+    return pathRet / ".scashx";
+    // !SCASHX END
 #endif
 #endif
 }
@@ -767,12 +790,31 @@ std::variant<ChainType, std::string> ArgsManager::GetChainArg() const
     if (fRegTest) return ChainType::REGTEST;
     if (fSigNet) return ChainType::SIGNET;
     if (fTestNet) return ChainType::TESTNET;
+
+    // !SCASHX
+    const bool fScashXMain = get_net("-scashx");
+    const bool fScashXRegTest = get_net("-scashxregtest");
+    const bool fScashXTestnet = get_net("-scashxtestnet");
+
+    if ((int)chain_arg.has_value() + (int)fScashXMain + (int)fScashXTestnet + (int)fScashXRegTest + (int)fRegTest + (int)fSigNet + (int)fTestNet > 1) {
+        throw std::runtime_error("Invalid combination of -scashx, -scashxregtest, -scashxtestnet, -regtest, -signet, -testnet and -chain. Can use at most one.");
+    }
+
+    if (fScashXMain) return ChainType::SCASHXMAIN;
+    if (fScashXRegTest) return ChainType::SCASHXREGTEST;
+    if (fScashXTestnet) return ChainType::SCASHXTESTNET;
+
+    if (fExecutableNamedScashX) return ChainType::SCASHXMAIN;
+    // !SCASHX END
+
     return ChainType::MAIN;
 }
 
 bool ArgsManager::UseDefaultSection(const std::string& arg) const
 {
-    return m_network == ChainTypeToString(ChainType::MAIN) || m_network_only_args.count(arg) == 0;
+    // !SCASHX
+    return m_network == ChainTypeToString(ChainType::SCASHXMAIN) || m_network == ChainTypeToString(ChainType::MAIN) || m_network_only_args.count(arg) == 0;
+    // !SCASHX END
 }
 
 common::SettingsValue ArgsManager::GetSetting(const std::string& arg) const

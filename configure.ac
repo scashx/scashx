@@ -7,7 +7,15 @@ define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2024)
 define(_COPYRIGHT_HOLDERS,[The %s developers])
 define(_COPYRIGHT_HOLDERS_SUBSTITUTION,[[Bitcoin Core]])
-AC_INIT([Bitcoin Core],m4_join([.], _CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MINOR, _CLIENT_VERSION_BUILD)m4_if(_CLIENT_VERSION_RC, [0], [], [rc]_CLIENT_VERSION_RC),[https://github.com/bitcoin/bitcoin/issues],[bitcoin],[https://bitcoincore.org/])
+
+dnl !SCASHX
+define(_SCASHX_CLIENT_RELEASE_NAME_MAJOR, [narnia])
+define(_SCASHX_CLIENT_VERSION_MAJOR, 2)
+define(_SCASHX_CLIENT_VERSION_MINOR, 0)
+define(_SCASHX_CLIENT_VERSION_BUILD, 0)
+AC_INIT([ScashX],m4_join([.], _SCASHX_CLIENT_VERSION_MAJOR, _SCASHX_CLIENT_VERSION_MINOR, _SCASHX_CLIENT_VERSION_BUILD)m4_if(_CLIENT_VERSION_RC, [0], [], [rc]_CLIENT_VERSION_RC)-_SCASHX_CLIENT_RELEASE_NAME_MAJOR-core-m4_join([.], _CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MINOR, _CLIENT_VERSION_BUILD),[https://github.com/scashx/scashx/issues],[scashx],[https://github.com/scashx/scashx])
+dnl !SCASHX END
+
 AC_CONFIG_SRCDIR([src/validation.cpp])
 AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -40,6 +48,24 @@ BITCOIN_WALLET_TOOL_NAME=bitcoin-wallet
 dnl Multi Process
 BITCOIN_MP_NODE_NAME=bitcoin-node
 BITCOIN_MP_GUI_NAME=bitcoin-gui
+
+dnl !SCASHX
+dnl For Windows packaging
+SCASHX_DAEMON_NAME=scashxd
+SCASHX_GUI_NAME=scashx-qt
+SCASHX_TEST_NAME=test_scashx
+SCASHX_CLI_NAME=scashx-cli
+SCASHX_TX_NAME=scashx-tx
+SCASHX_UTIL_NAME=scashx-util
+SCASHX_WALLET_TOOL_NAME=scashx-wallet
+AC_SUBST(SCASHX_DAEMON_NAME)
+AC_SUBST(SCASHX_GUI_NAME)
+AC_SUBST(SCASHX_TEST_NAME)
+AC_SUBST(SCASHX_CLI_NAME)
+AC_SUBST(SCASHX_TX_NAME)
+AC_SUBST(SCASHX_UTIL_NAME)
+AC_SUBST(SCASHX_WALLET_TOOL_NAME)
+dnl !SCASHX_END
 
 dnl Unless the user specified ARFLAGS, force it to be cr
 dnl This is also the default as-of libtool 2.4.7
@@ -1379,6 +1405,16 @@ if test "$use_upnp" != "no"; then
     ])
   fi
   CPPFLAGS="$TEMP_CPPFLAGS"
+fi
+
+dnl Check the RandomX dependency was built and can be linked against
+AC_MSG_CHECKING([RandomX dependency])
+AC_CHECK_HEADERS([randomx.h],
+                  [AC_CHECK_LIB([randomx], [randomx_get_flags], [RANDOMX_LIBS=-lrandomx], [have_randomx=no])],
+                  [have_randomx=no])
+AC_SUBST(RANDOMX_LIBS)
+if test x$have_randomx = xno; then
+  AC_MSG_ERROR([[RandomX dependency not built correctly]])
 fi
 
 dnl Check for libnatpmp (optional).

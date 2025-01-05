@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2022 The Bitcoin Core developers
+// Copyright (c) 2024 The ScashX developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -204,6 +205,10 @@ public:
     uint32_t nTime{0};
     uint32_t nBits{0};
     uint32_t nNonce{0};
+    
+    // !SCASHX
+    uint256 hashRandomX{};
+    // !SCASHX END
 
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     int32_t nSequenceId{0};
@@ -216,7 +221,10 @@ public:
           hashMerkleRoot{block.hashMerkleRoot},
           nTime{block.nTime},
           nBits{block.nBits},
-          nNonce{block.nNonce}
+          nNonce{block.nNonce},
+          // !SCASHX
+          hashRandomX{block.hashRandomX}
+          // !SCASHX END
     {
     }
 
@@ -252,6 +260,9 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
+        // !SCASHX
+        block.hashRandomX = hashRandomX;
+        // !SCASHX END
         return block;
     }
 
@@ -424,6 +435,11 @@ public:
         READWRITE(obj.nTime);
         READWRITE(obj.nBits);
         READWRITE(obj.nNonce);
+        // !SCASHX
+        if (g_isRandomX) {
+            READWRITE(obj.hashRandomX);
+        }
+        // !SCASHX END
     }
 
     uint256 ConstructBlockHash() const
@@ -435,6 +451,9 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
+        // !SCASHX
+        block.hashRandomX = hashRandomX;
+        // !SCASHX END
         return block.GetHash();
     }
 

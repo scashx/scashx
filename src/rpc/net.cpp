@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2022 The Bitcoin Core developers
+// Copyright (c) 2024 The ScashX developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -491,7 +492,9 @@ static RPCHelpMan getaddednodeinfo()
                             {
                                 {RPCResult::Type::OBJ, "", "",
                                 {
-                                    {RPCResult::Type::STR, "address", "The bitcoin server IP and port we're connected to"},
+                                    // !SCASHX
+                                    {RPCResult::Type::STR, "address", "The ScashX server IP and port we're connected to"},
+                                    // !SCASHX END
                                     {RPCResult::Type::STR, "connected", "connection, inbound or outbound"},
                                 }},
                             }},

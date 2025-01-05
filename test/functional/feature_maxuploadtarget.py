@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2015-2022 The Bitcoin Core developers
+# Copyright (c) 2024 The ScashX developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test behavior of -maxuploadtarget.
@@ -52,6 +53,9 @@ class MaxUploadTest(BitcoinTestFramework):
         self.extra_args = [[
             f"-maxuploadtarget={UPLOAD_TARGET_MB}M",
             "-datacarriersize=100000",
+            # !SCASHX
+            "-datacarrier=1",
+            # !SCASHX END
         ]]
         self.supports_cli = False
 

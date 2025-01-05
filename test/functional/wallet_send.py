@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2020-2022 The Bitcoin Core developers
+# Copyright (c) 2024 The ScashX developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the send RPC command."""
@@ -35,6 +36,10 @@ class WalletSendTest(BitcoinTestFramework):
             ["-whitelist=127.0.0.1","-walletrbf=1"],
             ["-whitelist=127.0.0.1","-walletrbf=1"],
         ]
+        # !SCASHX
+        for args in self.extra_args:
+            args.append("-datacarrier=1")
+        # !SCASHX END
         getcontext().prec = 8 # Satoshi precision for Decimal
 
     def skip_test_if_missing_module(self):
@@ -425,7 +430,9 @@ class WalletSendTest(BitcoinTestFramework):
 
         self.log.info("Manual change address and position...")
         self.test_send(from_wallet=w0, to_wallet=w1, amount=1, change_address="not an address",
-                       expect_error=(-5, "Change address must be a valid bitcoin address"))
+                       # !SCASHX
+                       expect_error=(-5, "Change address must be a valid ScashX address"))
+                       # !SCASHX END
         change_address = w0.getnewaddress()
         self.test_send(from_wallet=w0, to_wallet=w1, amount=1, add_to_wallet=False, change_address=change_address)
         assert res["complete"]

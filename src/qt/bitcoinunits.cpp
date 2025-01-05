@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2021 The Bitcoin Core developers
+// Copyright (c) 2024 The ScashX developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -31,9 +32,11 @@ QList<BitcoinUnit> BitcoinUnits::availableUnits()
 QString BitcoinUnits::longName(Unit unit)
 {
     switch (unit) {
-    case Unit::BTC: return QString("BTC");
-    case Unit::mBTC: return QString("mBTC");
-    case Unit::uBTC: return QString::fromUtf8("µBTC (bits)");
+    // !SCASHX
+    case Unit::BTC: return QString("SCASHX");
+    case Unit::mBTC: return QString("mSCASHX");
+    case Unit::uBTC: return QString::fromUtf8("µSCASHX (bits)");
+    // !SCASHX END
     case Unit::SAT: return QString("Satoshi (sat)");
     } // no default case, so the compiler can warn about missing cases
     assert(false);
@@ -53,9 +56,11 @@ QString BitcoinUnits::shortName(Unit unit)
 QString BitcoinUnits::description(Unit unit)
 {
     switch (unit) {
-    case Unit::BTC: return QString("Bitcoins");
-    case Unit::mBTC: return QString("Milli-Bitcoins (1 / 1" THIN_SP_UTF8 "000)");
-    case Unit::uBTC: return QString("Micro-Bitcoins (bits) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    // !SCASHX
+    case Unit::BTC: return QString("ScashX");
+    case Unit::mBTC: return QString("Milli-ScashX (1 / 1" THIN_SP_UTF8 "000)");
+    case Unit::uBTC: return QString("Micro-ScashX (bits) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    // !SCASHX END
     case Unit::SAT: return QString("Satoshi (sat) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     } // no default case, so the compiler can warn about missing cases
     assert(false);

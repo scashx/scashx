@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2021 The Bitcoin Core developers
+// Copyright (c) 2024 The ScashX developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -160,6 +161,12 @@ public:
     static std::unique_ptr<const CChainParams> SigNet(const SigNetOptions& options);
     static std::unique_ptr<const CChainParams> Main();
     static std::unique_ptr<const CChainParams> TestNet();
+
+    // !SCASHX
+    static std::unique_ptr<const CChainParams> ScashXRegTest(const RegTestOptions& options);
+    static std::unique_ptr<const CChainParams> ScashXTestNet();
+    static std::unique_ptr<const CChainParams> ScashXMain();
+    // !SCASHX END
 
 protected:
     CChainParams() {}
