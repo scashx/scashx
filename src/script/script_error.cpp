@@ -116,10 +116,8 @@ std::string ScriptErrorString(const ScriptError serror)
             return "Using OP_CODESEPARATOR in non-witness script";
         case SCRIPT_ERR_SIG_FINDANDDELETE:
             return "Signature is found in scriptCode";
-        // !SCASH
         case SCRIPT_ERR_ORDINALS:
             return "Ordinals pattern detected";
-        // !SCASH END
         case SCRIPT_ERR_UNKNOWN_ERROR:
         case SCRIPT_ERR_ERROR_COUNT:
         default: break;

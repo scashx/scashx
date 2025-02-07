@@ -547,14 +547,14 @@ std::unique_ptr<const CChainParams> CChainParams::TestNet()
 // !SCASH
 
 // Compute block hash over entire header (including RandomX fields) even if global flag is not set
-static uint256 GetHashOfScashGenesisBlock(const CBlock& genesis) {
+static uint256 GetHashOfScashXGenesisBlock(const CBlock& genesis) {
     CBlockHeader rx_blockHeader(genesis);
     unsigned char hash[32];
     CHash256().Write({(unsigned char *)&rx_blockHeader, sizeof(rx_blockHeader)}).Finalize(hash);
     return uint256(hash);
 }
 
-static CBlock CreateScashGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
+static CBlock CreateScashXGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
     const char* pszTimestamp = "22/Feb/2024 S&P 5087.03 @elonmusk 1760819426688115087 Congrats";
     const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
@@ -564,10 +564,10 @@ static CBlock CreateScashGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t 
 /**
  * Main network on which people trade goods and services.
  */
-class CScashMainParams : public CChainParams {
+class CScashXMainParams : public CChainParams {
 public:
-    CScashMainParams() {
-        m_chain_type = ChainType::SCASHMAIN;
+    CScashXMainParams() {
+        m_chain_type = ChainType::SCASHXMAIN;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 210000;
@@ -626,9 +626,9 @@ public:
 
         consensus.fPowRandomX = true;
         consensus.nRandomXEpochDuration = 7 * 24 * 60 * 60;     // one week
-        genesis = CreateScashGenesisBlock(1708650456, 20076863, 0x1e0fffff, 1, 50 * COIN);
+        genesis = CreateScashXGenesisBlock(1708650456, 20076863, 0x1e0fffff, 1, 50 * COIN);
         genesis.hashRandomX = uint256S("33c450e0152826e3a8948b01464cf9182344a1544b3ddcf6153dd04b62938d01");
-        consensus.hashGenesisBlock = GetHashOfScashGenesisBlock(genesis);
+        consensus.hashGenesisBlock = GetHashOfScashXGenesisBlock(genesis);
         assert(consensus.hashGenesisBlock == uint256S("e3bf1597a568216022dbda6a0945f09b005d19f041e7158c3cbca9d4029ee82d"));
         assert(genesis.hashMerkleRoot == uint256S("2f7b90fafd8247ee73d213d49699fcfe12a37c608f1d9d1c06f10e43cb6426c6"));
 
@@ -670,10 +670,10 @@ public:
 /**
  * Testnet: public test network which is reset from time to time.
  */
-class CScashTestNetParams : public CChainParams {
+class CScashXTestNetParams : public CChainParams {
 public:
-    CScashTestNetParams() {
-        m_chain_type = ChainType::SCASHTESTNET;
+    CScashXTestNetParams() {
+        m_chain_type = ChainType::SCASHXTESTNET;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 210000;
@@ -731,7 +731,7 @@ public:
         genesis = CreateGenesisBlock(1296688602, 6107, 0x1e7fffff, 1, 50 * COIN);
         genesis.hashRandomX = uint256S("e848dddfb604a4b1783c8a38b6db5179ccd6911331f2be18bfec02522d95af86");
         consensus.hashGenesisBlock = genesis.GetHash();
-        consensus.hashGenesisBlock = GetHashOfScashGenesisBlock(genesis);
+        consensus.hashGenesisBlock = GetHashOfScashXGenesisBlock(genesis);
         assert(consensus.hashGenesisBlock == uint256S("0e3ba94819749c208e2526d9b829e0dba109f1bce4e62600c0fc556294f24c82"));
         assert(genesis.hashMerkleRoot == uint256S("4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"));
 
@@ -767,12 +767,12 @@ public:
  * Regression test: intended for private networks only. Has minimal difficulty to ensure that
  * blocks can be found instantly.
  */
-class CScashRegTestParams : public CChainParams
+class CScashXRegTestParams : public CChainParams
 {
 public:
-    explicit CScashRegTestParams(const RegTestOptions& opts)
+    explicit CScashXRegTestParams(const RegTestOptions& opts)
     {
-        m_chain_type = ChainType::SCASHREGTEST;
+        m_chain_type = ChainType::SCASHXREGTEST;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 150;
@@ -843,7 +843,7 @@ public:
         consensus.nRandomXEpochDuration = 24 * 60 * 60;     // one day
         genesis = CreateGenesisBlock(1296688602, 1, 0x207fffff, 1, 50 * COIN);
         genesis.hashRandomX = uint256S("0x177a9deba97f0dae00a6bf55e03671ec6bce7051d6a5054db49237598b803f93");
-        consensus.hashGenesisBlock = GetHashOfScashGenesisBlock(genesis);
+        consensus.hashGenesisBlock = GetHashOfScashXGenesisBlock(genesis);
         assert(consensus.hashGenesisBlock == uint256S("f44d4e3a27c9c0dbd8c6c2596950c782a99ad33f749d296d2a0ab3af84b4cb86"));
         assert(genesis.hashMerkleRoot == uint256S("4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"));
 
@@ -876,19 +876,19 @@ public:
     }
 };
 
-std::unique_ptr<const CChainParams> CChainParams::ScashRegTest(const RegTestOptions& options)
+std::unique_ptr<const CChainParams> CChainParams::ScashXRegTest(const RegTestOptions& options)
 {
-    return std::make_unique<const CScashRegTestParams>(options);
+    return std::make_unique<const CScashXRegTestParams>(options);
 }
 
-std::unique_ptr<const CChainParams> CChainParams::ScashTestNet()
+std::unique_ptr<const CChainParams> CChainParams::ScashXTestNet()
 {
-    return std::make_unique<const CScashTestNetParams>();
+    return std::make_unique<const CScashXTestNetParams>();
 }
 
-std::unique_ptr<const CChainParams> CChainParams::ScashMain()
+std::unique_ptr<const CChainParams> CChainParams::ScashXMain()
 {
-    return std::make_unique<const CScashMainParams>();
+    return std::make_unique<const CScashXMainParams>();
 }
 
 // !SCASH END

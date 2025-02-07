@@ -99,9 +99,7 @@ class InvalidAddressErrorMessageTest(BitcoinTestFramework):
         node = self.nodes[0]
 
         # Missing arg returns the help text
-        # !SCASH
-        assert_raises_rpc_error(-1, "Return information about the given Scash address.", node.validateaddress)
-        # !SCASH END
+        assert_raises_rpc_error(-1, "Return information about the given ScashX address.", node.validateaddress)
         # Explicit None is not allowed for required parameters
         assert_raises_rpc_error(-3, "JSON value of type null is not of expected type string", node.validateaddress, None)
 

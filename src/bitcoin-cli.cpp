@@ -430,7 +430,6 @@ private:
     std::string ChainToString() const
     {
         switch (gArgs.GetChainType()) {
-        // !SCASH
         case ChainType::TESTNET:
             return " btctestnet";
         case ChainType::SIGNET:
@@ -439,13 +438,12 @@ private:
             return " btcregtest";
         case ChainType::MAIN:
             return " btc";
-        case ChainType::SCASHTESTNET:
-            return " scashtestnet";
-        case ChainType::SCASHREGTEST:
-            return " scashregtest";
-        case ChainType::SCASHMAIN:
-            return " scash";
-        // !SCASH END
+        case ChainType::SCASHXTESTNET:
+            return " scashxtestnet";
+        case ChainType::SCASHXREGTEST:
+            return " scashxregtest";
+        case ChainType::SCASHXMAIN:
+            return " scashx";
         }
         assert(false);
     }

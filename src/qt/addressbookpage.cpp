@@ -92,16 +92,12 @@ AddressBookPage::AddressBookPage(const PlatformStyle *platformStyle, Mode _mode,
     switch(tab)
     {
     case SendingTab:
-        // !SCASH
-        ui->labelExplanation->setText(tr("These are your Scash addresses for sending payments. Always check the amount and the receiving address before sending coins."));
-        // !SCASH END
+        ui->labelExplanation->setText(tr("These are your ScashX addresses for sending payments. Always check the amount and the receiving address before sending coins."));
         ui->deleteAddress->setVisible(true);
         ui->newAddress->setVisible(true);
         break;
     case ReceivingTab:
-        // !SCASH
-        ui->labelExplanation->setText(tr("These are your Scash addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.\nSigning is only possible with addresses of the type 'legacy'."));
-        // !SCASH END
+        ui->labelExplanation->setText(tr("These are your ScashX addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.\nSigning is only possible with addresses of the type 'legacy'."));
         ui->deleteAddress->setVisible(false);
         ui->newAddress->setVisible(false);
         break;

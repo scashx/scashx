@@ -206,9 +206,7 @@ public:
     uint32_t nBits{0};
     uint32_t nNonce{0};
     
-    // !SCASH
     uint256 hashRandomX{};
-    // !SCASH END
 
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     int32_t nSequenceId{0};
@@ -222,9 +220,7 @@ public:
           nTime{block.nTime},
           nBits{block.nBits},
           nNonce{block.nNonce},
-          // !SCASH
           hashRandomX{block.hashRandomX}
-          // !SCASH END
     {
     }
 
@@ -260,9 +256,7 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
-        // !SCASH
         block.hashRandomX = hashRandomX;
-        // !SCASH END
         return block;
     }
 
@@ -435,11 +429,9 @@ public:
         READWRITE(obj.nTime);
         READWRITE(obj.nBits);
         READWRITE(obj.nNonce);
-        // !SCASH
         if (g_isRandomX) {
             READWRITE(obj.hashRandomX);
         }
-        // !SCASH END
     }
 
     uint256 ConstructBlockHash() const
@@ -451,9 +443,7 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
-        // !SCASH
         block.hashRandomX = hashRandomX;
-        // !SCASH END
         return block.GetHash();
     }
 

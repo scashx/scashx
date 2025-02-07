@@ -79,9 +79,7 @@ class TestNode():
         self.index = i
         self.p2p_conn_index = 1
         self.datadir_path = datadir_path
-        # !SCASH
-        self.bitcoinconf = self.datadir_path / 'scash.conf'
-        # !SCASH END
+        self.bitcoinconf = self.datadir_path / 'scashx.conf'
         self.stdout_dir = self.datadir_path / "stdout"
         self.stderr_dir = self.datadir_path / "stderr"
         self.chain = chain

@@ -10,14 +10,14 @@ from test_framework.util import assert_equal
 class P2PInvalidBlockPowTest(BitcoinTestFramework):
 
     def set_test_params(self):
-        self.chain = "scashtestnet"
+        self.chain = "scashxtestnet"
         self.num_nodes = 1
         self.setup_clean_chain = True
         self.extra_args = [["-dnsseed=0"]]
 
     def run_test(self):
         node = self.nodes[0]
-        assert(node.getblockchaininfo()['chain'] == "scashtestnet")
+        assert(node.getblockchaininfo()['chain'] == "scashxtestnet")
 
         # Bad Testnet block 1 with invalid RandomX hash.
         # Commitment meets block target but fails full verification of RandomX hash.

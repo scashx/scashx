@@ -55,9 +55,7 @@
 #include <memory>
 #include <mutex>
 
-// !SCASH
 #include <pow.h>
-// !SCASH END
 
 using kernel::CCoinsStats;
 using kernel::CoinStatsHashType;
@@ -163,13 +161,11 @@ UniValue blockheaderToJSON(const CBlockIndex& tip, const CBlockIndex& blockindex
     if (pnext)
         result.pushKV("nextblockhash", pnext->GetBlockHash().GetHex());
 
-    // !SCASH
     if (g_isRandomX) {
         result.pushKV("rx_epoch", GetEpoch(blockindex.nTime, Params().GetConsensus().nRandomXEpochDuration));
         result.pushKV("rx_hash", blockindex.hashRandomX.GetHex());
         result.pushKV("rx_cm", GetRandomXCommitment(blockindex.GetBlockHeader()).GetHex());
     }
-    // !SCASH END
 
     return result;
 }
@@ -547,11 +543,9 @@ static RPCHelpMan getblockheader()
                             {RPCResult::Type::STR_HEX, "previousblockhash", /*optional=*/true, "The hash of the previous block (if available)"},
                             {RPCResult::Type::STR_HEX, "nextblockhash", /*optional=*/true, "The hash of the next block (if available)"},
 
-                            // !SCASH
                             {RPCResult::Type::STR_HEX, "rx_cm", /*optional=*/true, "The RandomX commitment"},
                             {RPCResult::Type::STR_HEX, "rx_hash", /*optional=*/true, "The RandomX hash"},
                             {RPCResult::Type::NUM, "rx_epoch", /*optional=*/true, "The RandomX epoch"},
-                            // !SCASH END
                         }},
                     RPCResult{"for verbose=false",
                         RPCResult::Type::STR_HEX, "", "A string that is serialized, hex-encoded data for block 'hash'"},
@@ -651,9 +645,7 @@ const RPCResult getblock_vin{
                     {RPCResult::Type::STR, "asm", "Disassembly of the public key script"},
                     {RPCResult::Type::STR, "desc", "Inferred descriptor for the output"},
                     {RPCResult::Type::STR_HEX, "hex", "The raw public key script bytes, hex-encoded"},
-                    // !SCASH
-                    {RPCResult::Type::STR, "address", /*optional=*/true, "The Scash address (only if a well-defined address exists)"},
-                    // !SCASH END
+                    {RPCResult::Type::STR, "address", /*optional=*/true, "The ScashX address (only if a well-defined address exists)"},
                     {RPCResult::Type::STR, "type", "The type (one of: " + GetAllOutputTypes() + ")"},
                 }},
             }},

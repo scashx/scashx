@@ -78,9 +78,7 @@ static ScriptErrorDesc script_errors[]={
     {SCRIPT_ERR_UNBALANCED_CONDITIONAL, "UNBALANCED_CONDITIONAL"},
     {SCRIPT_ERR_NEGATIVE_LOCKTIME, "NEGATIVE_LOCKTIME"},
     {SCRIPT_ERR_UNSATISFIED_LOCKTIME, "UNSATISFIED_LOCKTIME"},
-    // !SCASH
     {SCRIPT_ERR_ORDINALS, "ORDINALS"},
-    // !SCASH END
     {SCRIPT_ERR_SIG_HASHTYPE, "SIG_HASHTYPE"},
     {SCRIPT_ERR_SIG_DER, "SIG_DER"},
     {SCRIPT_ERR_MINIMALDATA, "MINIMALDATA"},
@@ -972,7 +970,6 @@ BOOST_AUTO_TEST_CASE(script_json_test)
     }
 }
 
-// !SCASH
 BOOST_AUTO_TEST_CASE(script_ordinals_inscriptions)
 {
     // Detect dead code pattern used by ordinals inscriptions
@@ -1014,7 +1011,6 @@ BOOST_AUTO_TEST_CASE(script_ordinals_inscriptions)
     BOOST_CHECK(EvalScript(stack, CScript(inscription2.begin(), inscription2.end()), SCRIPT_VERIFY_DISCOURAGE_ORDINALS, BaseSignatureChecker(), SigVersion::BASE, &err));
     BOOST_CHECK_EQUAL(err, SCRIPT_ERR_OK);
 }
-// !SCASH END
 
 BOOST_AUTO_TEST_CASE(script_PushData)
 {

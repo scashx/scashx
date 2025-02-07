@@ -12,14 +12,14 @@ class SuspiciousReorgTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 3
-        self.chain = "scashregtest"
+        self.chain = "scashxregtest"
 
     def setup_network(self):
         self.setup_nodes()
 
     def run_test(self):
         node = self.nodes[0]
-        assert(node.getblockchaininfo()['chain'] == "scashregtest")
+        assert(node.getblockchaininfo()['chain'] == "scashxregtest")
 
         self.log.info("Mine 80 blocks on Node 0")
         self.generate(self.nodes[0], 80, sync_fun=self.no_op)

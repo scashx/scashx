@@ -12,9 +12,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-// !SCASH
 #include <cmath>
-// !SCASH END
 
 
 BOOST_FIXTURE_TEST_SUITE(pow_tests, BasicTestingSetup)
@@ -183,14 +181,12 @@ void sanity_check_chainparams(const ArgsManager& args, ChainType chain_type)
 
     // check max target * 4*nPowTargetTimespan doesn't overflow -- see pow.cpp:CalculateNextWorkRequired()
 
-    // SCASH
     if (g_isRandomX && !consensus.fPowNoRetargeting) {
         arith_uint512 targ_max_512("0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
         targ_max_512 /= consensus.nPowTargetTimespan*4;
         arith_uint512 powLimit_512 = arith_uint512::from(UintToArith256(consensus.powLimit));
         BOOST_CHECK(powLimit_512 < targ_max_512);
     } else
-    // !SCASH END
     if (!consensus.fPowNoRetargeting) {
         arith_uint256 targ_max("0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
         targ_max /= consensus.nPowTargetTimespan*4;
@@ -218,25 +214,24 @@ BOOST_AUTO_TEST_CASE(ChainParams_SIGNET_sanity)
     sanity_check_chainparams(*m_node.args, ChainType::SIGNET);
 }
 
-// !SCASH
-BOOST_AUTO_TEST_CASE(ChainParams_SCASHREGTEST_sanity)
+BOOST_AUTO_TEST_CASE(ChainParams_SCASHXREGTEST_sanity)
 {
     g_isRandomX = true;
-    sanity_check_chainparams(*m_node.args, ChainType::SCASHREGTEST);
+    sanity_check_chainparams(*m_node.args, ChainType::SCASHXREGTEST);
     g_isRandomX = false;
 }
 
-BOOST_AUTO_TEST_CASE(ChainParams_SCASHTESTNET_sanity)
+BOOST_AUTO_TEST_CASE(ChainParams_SCASHXTESTNET_sanity)
 {
     g_isRandomX = true;
-    sanity_check_chainparams(*m_node.args, ChainType::SCASHTESTNET);
+    sanity_check_chainparams(*m_node.args, ChainType::SCASHXTESTNET);
     g_isRandomX = false;
 }
 
-BOOST_AUTO_TEST_CASE(ChainParams_SCASHMAIN_sanity)
+BOOST_AUTO_TEST_CASE(ChainParams_SCASHXMAIN_sanity)
 {
     g_isRandomX = true;
-    sanity_check_chainparams(*m_node.args, ChainType::SCASHMAIN);
+    sanity_check_chainparams(*m_node.args, ChainType::SCASHXMAIN);
     g_isRandomX = false;
 }
 
@@ -268,10 +263,10 @@ BOOST_AUTO_TEST_CASE(Check_RandomX_BlockHeader)
 {
     m_node.args->ForceSetArg("-randomxfastmode", "0"); // disable fast mode which requires at least 2GB of memory
     
-    const auto chainParams = CreateChainParams(*m_node.args, ChainType::SCASHTESTNET);
+    const auto chainParams = CreateChainParams(*m_node.args, ChainType::SCASHXTESTNET);
     const auto consensus = chainParams->GetConsensus();
 
-    // Sanity check: block header GetHash() function includes RandomX field when running as Scash
+    // Sanity check: block header GetHash() function includes RandomX field when running as ScashX
     assert(!g_isRandomX);
     BOOST_CHECK_NE(consensus.hashGenesisBlock, chainParams->GenesisBlock().GetHash());
     g_isRandomX = true;
@@ -363,8 +358,6 @@ BOOST_AUTO_TEST_CASE(Check_RandomX_BlockHeader)
     BOOST_CHECK_NE(cm, uint256S("0000388a6a0aa5eaa14ce3aa066106e1d3f82a05b4a8fc6c6c7b128924a24868"));
 }
 
-// !SCASH END
-
 
 // !BITCOINCASH
 
@@ -374,7 +367,7 @@ BOOST_AUTO_TEST_CASE(Check_RandomX_BlockHeader)
  * Source code:
  * https://gitlab.com/bitcoin-cash-node/bitcoin-cash-node/-/blob/0a5fa6246387c3a9498898ee5257ee6950c1b635/src/test/pow_tests.cpp
  *
- * Any changes to the Bitcoin Cash code because Scash has a different powlimit are marked with Scash guards.
+ * Any changes to the Bitcoin Cash code because ScashX has a different powlimit are marked with ScashX guards.
  */
 
 using CBlockIndexPtr = std::unique_ptr<CBlockIndex>;
@@ -415,12 +408,10 @@ double GetASERTApproximationError(const CBlockIndex *pindexPrev,
 }
 
 BOOST_AUTO_TEST_CASE(asert_difficulty_test) {
-    // !SCASH
     // Use BCH powLimit to replicate BCH tests
-    Consensus::Params mutableParams = CreateChainParams(*m_node.args, ChainType::SCASHMAIN)->GetConsensus();
+    Consensus::Params mutableParams = CreateChainParams(*m_node.args, ChainType::SCASHXMAIN)->GetConsensus();
     mutableParams.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
     std::vector<CBlockIndexPtr> blocks(3000 + 2*24*3600);
-    // !SCASH END
     mutableParams.asertAnchorParams.reset();  // clear hard-coded anchor block so that we may perform these below tests
     const Consensus::Params &params = mutableParams; // take a const reference    
     const arith_uint256 powLimit = UintToArith256(params.powLimit);
@@ -658,11 +649,9 @@ std::string StrPrintCalcArgs(const arith_uint256 refTarget,
 
 // Tests of the CalculateASERT function.
 BOOST_AUTO_TEST_CASE(calculate_asert_test) {
-    // !SCASH
     // Use BCH powLimit to replicate BCH tests
-    Consensus::Params params = CreateChainParams(*m_node.args, ChainType::SCASHMAIN)->GetConsensus();
+    Consensus::Params params = CreateChainParams(*m_node.args, ChainType::SCASHXMAIN)->GetConsensus();
     params.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-    // !SCASH END
     const int64_t nHalfLife = params.nASERTHalfLife;
 
     const arith_uint256 powLimit = UintToArith256(params.powLimit);
@@ -786,10 +775,9 @@ BOOST_AUTO_TEST_CASE(calculate_asert_test) {
 }
 
 
-// !SCASH
-// Custom test similar to calculate_asert_test above, but using Scash powlimit
-BOOST_AUTO_TEST_CASE(calculate_asert_scash_test) {
-    Consensus::Params params = CreateChainParams(*m_node.args, ChainType::SCASHMAIN)->GetConsensus();
+// Custom test similar to calculate_asert_test above, but using ScashX powlimit
+BOOST_AUTO_TEST_CASE(calculate_asert_scashx_test) {
+    Consensus::Params params = CreateChainParams(*m_node.args, ChainType::SCASHXMAIN)->GetConsensus();
     const int64_t nHalfLife = params.nASERTHalfLife;
     const arith_uint256 powLimit = UintToArith256(params.powLimit);
 
@@ -939,12 +927,12 @@ BOOST_AUTO_TEST_CASE(calculate_asert_scash_test) {
 /**
  * Test transition of legacy Bitcoin DAA to ASERT algorithm with anchor block.
  */
-BOOST_AUTO_TEST_CASE(asert_activation_anchor_scash_test) {
-    Consensus::Params params = CreateChainParams(*m_node.args, ChainType::SCASHMAIN)->GetConsensus();
+BOOST_AUTO_TEST_CASE(asert_activation_anchor_scashx_test) {
+    Consensus::Params params = CreateChainParams(*m_node.args, ChainType::SCASHXMAIN)->GetConsensus();
     params.asertAnchorParams.reset(); // clear hard-coded anchor block so that we may test the activation below
     CBlockHeader blkHeaderDummy;
 
-    // an arbitrary compact target for our chain (based on Scash chain ~ Apr 26 2024).
+    // an arbitrary compact target for our chain (based on ScashX chain ~ Apr 26 2024).
     uint32_t initialBits = 0x1c7b9d90;
 
     // Block store for anonymous blocks; needs to be big enough to fit all generated blocks in this test.
@@ -1014,7 +1002,6 @@ BOOST_AUTO_TEST_CASE(asert_activation_anchor_scash_test) {
     const uint32_t powLimit_nBits = UintToArith256(params.powLimit).GetCompact();
     BOOST_CHECK(powLimit_nBits == nextBits);
 }
-// !SCASH END
 
 // !BITCOINCASH END
 

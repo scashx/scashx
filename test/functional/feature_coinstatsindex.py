@@ -46,10 +46,8 @@ class CoinStatsIndexTest(BitcoinTestFramework):
             [],
             ["-coinstatsindex"]
         ]
-        # !SCASH
         for args in self.extra_args:
             args.append("-datacarrier=1")
-        # !SCASH END
 
     def run_test(self):
         self.wallet = MiniWallet(self.nodes[0])

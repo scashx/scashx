@@ -14,9 +14,7 @@
 #include <map>
 #include <vector>
 
-// !SCASH
 #include <optional>
-// !SCASH END
 
 namespace Consensus {
 
@@ -150,7 +148,6 @@ struct Params {
         return std::numeric_limits<int>::max();
     }
 
-    // !SCASH
     bool fPowRandomX{false};
     uint32_t nRandomXEpochDuration;
 
@@ -163,8 +160,6 @@ struct Params {
         int64_t nPrevBlockTime;
     };
     std::optional<ASERTAnchor> asertAnchorParams;
-
-    // !SCASH END
 };
 
 } // namespace Consensus

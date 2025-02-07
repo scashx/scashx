@@ -266,10 +266,8 @@ BASE_SCRIPTS = [
     'p2p_v2_transport.py',
     'p2p_v2_encrypted.py',
     'p2p_v2_earlykeyresponse.py',
-    # !SCASH
     'p2p_invalid_block_pow.py',
     'feature_suspicious_reorg.py',
-    # !SCASH END
     'example_test.py',
     'mempool_accept_v3.py',
     'wallet_txn_doublespend.py --legacy-wallet',

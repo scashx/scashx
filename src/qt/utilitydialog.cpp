@@ -59,8 +59,8 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
     } else {
         setWindowTitle(tr("Command-line options"));
         // !SCASH
-        QString header = "Usage:  scash-qt [command-line options] [URI]\n\n"
-                         "Optional URI is a Scash address in BIP21 URI format.\n";
+        QString header = "Usage:  scashx-qt [command-line options] [URI]\n\n"
+                         "Optional URI is a ScashX address in BIP21 URI format.\n";
         // !SCASH END
         QTextCursor cursor(ui->helpMessage->document());
         cursor.insertText(version);

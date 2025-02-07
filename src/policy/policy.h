@@ -65,11 +65,9 @@ static constexpr unsigned int DEFAULT_DESCENDANT_LIMIT{25};
 /** Default for -limitdescendantsize, maximum kilobytes of in-mempool descendants */
 static constexpr unsigned int DEFAULT_DESCENDANT_SIZE_LIMIT_KVB{101};
 /** Default for -datacarrier */
-// !SCASH
 static const bool DEFAULT_ACCEPT_DATACARRIER = false;
 /** Default for -suspiciousreorgdepth, number of blocks */
 static constexpr unsigned int DEFAULT_SUSPICIOUS_REORG_DEPTH = COINBASE_MATURITY;
-// !SCASH END
 /**
  * Default setting for -datacarriersize. 80 bytes of data, +1 for OP_RETURN,
  * +2 for the pushdata opcodes.

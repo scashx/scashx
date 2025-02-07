@@ -254,7 +254,5 @@ arith_uint256 UintToArith256(const uint256 &a)
     return b;
 }
 
-// SCASH
 // Explicit instantiations for base_uint<512>
 template class base_uint<512>;
-// !SCASH END

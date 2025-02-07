@@ -25,9 +25,7 @@ from test_framework.util import (
     get_rpc_proxy,
 )
 
-# !SCASH
 from test_framework.test_framework import CHAIN_TYPE_FROM_SUBDIR
-# !SCASH END
 
 got_loading_error = False
 
@@ -252,9 +250,7 @@ class MultiWalletTest(BitcoinTestFramework):
         assert_equal(w4.getbalance(), 3)
 
         batch = w1.batch([w1.getblockchaininfo.get_request(), w1.getwalletinfo.get_request()])
-        #! SCASH
         assert_equal(batch[0]["result"]["chain"], CHAIN_TYPE_FROM_SUBDIR[self.chain] ) #self.getChainType() )
-        #! SCASH END
         assert_equal(batch[1]["result"]["walletname"], "w1")
 
         self.log.info('Check for per-wallet settxfee call')

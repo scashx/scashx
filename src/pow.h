@@ -37,7 +37,6 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
  */
 bool PermittedDifficultyTransition(const Consensus::Params& params, int64_t height, uint32_t old_nbits, uint32_t new_nbits);
 
-// !SCASH
 
 typedef enum POWVerifyMode_t
 {
@@ -80,6 +79,5 @@ uint32_t GetNextASERTWorkRequired(const CBlockIndex *pindexPrev,
                                   const Consensus::Params &params,
                                   const CBlockIndex *pindexAnchorBlock) noexcept;
 
-// !SCASH END
 
 #endif // BITCOIN_POW_H

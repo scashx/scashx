@@ -173,9 +173,7 @@ VALID_DATA = [
 class ValidateAddressMainTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
-        #! SCASH
         self.chain = "btc"  # main
-        #! SCASH END
         self.num_nodes = 1
         self.extra_args = [["-prune=899"]] * self.num_nodes
 

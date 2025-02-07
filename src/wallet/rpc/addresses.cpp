@@ -142,9 +142,7 @@ RPCHelpMan setlabel()
 
     CTxDestination dest = DecodeDestination(request.params[0].get_str());
     if (!IsValidDestination(dest)) {
-        // !SCASH
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Scash address");
-        // !SCASH END
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid ScashX address");
     }
 
     const std::string label{LabelFromValue(request.params[1])};

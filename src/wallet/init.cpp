@@ -121,14 +121,12 @@ bool WalletInit::ParameterInteraction() const
         LogPrintf("%s: parameter interaction: -blocksonly=1 -> setting -walletbroadcast=0\n", __func__);
     }
 
-    // !SCASH
     ChainType chain = gArgs.GetChainType();
-    if (chain == ChainType::SCASHMAIN || chain == ChainType::SCASHREGTEST || chain == ChainType::SCASHTESTNET) {
+    if (chain == ChainType::SCASHXMAIN || chain == ChainType::SCASHXREGTEST || chain == ChainType::SCASHXTESTNET) {
         if (gArgs.GetBoolArg("-walletrbf", DEFAULT_WALLET_RBF)) {
             return InitError(Untranslated("RBF is not supported."));
         }
     }
-    // !SCASH END
 
     return true;
 }

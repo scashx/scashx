@@ -30,9 +30,7 @@ class IncludeConfTest(BitcoinTestFramework):
         # - tmpdir/node0/relative2.conf
         with open(self.nodes[0].datadir_path / "relative2.conf", "w", encoding="utf8") as f:
             f.write("uacomment=relative2\n")
-        # !SCASH
-        with open(self.nodes[0].datadir_path / 'scash.conf', "a", encoding="utf8") as f:
-        # !SCASH END
+        with open(self.nodes[0].datadir_path / 'scashx.conf', "a", encoding="utf8") as f:
             f.write("uacomment=main\nincludeconf=relative.conf\n")
         self.restart_node(0)
 
@@ -77,9 +75,7 @@ class IncludeConfTest(BitcoinTestFramework):
             # Restore initial file contents
             f.write("uacomment=relative\n")
 
-        #! SCASH
-        with open(self.nodes[0].datadir_path / 'scash.conf', "a", encoding="utf8") as f:
-        #! SCASH END
+        with open(self.nodes[0].datadir_path / 'scashx.conf', "a", encoding="utf8") as f:
             f.write("includeconf=relative2.conf\n")
 
         self.start_node(0)
