@@ -2,7 +2,6 @@
 # Copyright (c) 2020-2022 The Bitcoin Core developers
 # Copyright (c) 2024 The Scash developers
 # Copyright (c) 2025 The ScashX developers
-# Copyright (c) 2025 The ScashX developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test coinstatsindex across nodes.
