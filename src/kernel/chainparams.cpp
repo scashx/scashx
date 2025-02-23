@@ -562,7 +562,8 @@ static uint256 GetHashOfScashXGenesisBlock(const CBlock& genesis) {
 
 static CBlock CreateScashXGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "22/Feb/2024 S&P 5087.03 @elonmusk 1760819426688115087 Congrats";
+    //const char* pszTimestamp = "22/Feb/2024 S&P 5087.03 @elonmusk 1760819426688115087 Congrats";
+    const char* pszTimestamp = "The Wall Street Journal 03/Jan/2025 Stocks charged higher Friday, with each sector of the S&P 500 logging gains.";
     const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
@@ -634,11 +635,11 @@ public:
 
         consensus.fPowRandomX = true;
         consensus.nRandomXEpochDuration = 7 * 24 * 60 * 60;     // one week
-        genesis = CreateScashXGenesisBlock(1708650456, 20076863, 0x1e0fffff, 1, 50 * COIN);
+        genesis = CreateScashXGenesisBlock(1736223000/*1708650456*/, 20456560, 0x1e0fffff, 1, 50 * COIN);
         genesis.hashRandomX = uint256S("33c450e0152826e3a8948b01464cf9182344a1544b3ddcf6153dd04b62938d01");
         consensus.hashGenesisBlock = GetHashOfScashXGenesisBlock(genesis);
-        assert(consensus.hashGenesisBlock == uint256S("e3bf1597a568216022dbda6a0945f09b005d19f041e7158c3cbca9d4029ee82d"));
-        assert(genesis.hashMerkleRoot == uint256S("2f7b90fafd8247ee73d213d49699fcfe12a37c608f1d9d1c06f10e43cb6426c6"));
+        assert(consensus.hashGenesisBlock == uint256S("de916fff9f833c001f259cc7223733c7ffe2b87226c040eeee3cb81b1929202d"));
+        assert(genesis.hashMerkleRoot == uint256S("bbae594fb8a1d9a32c6893cf58a4ad62b4a98ae7dd0354c8235d32b9774e6982"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
