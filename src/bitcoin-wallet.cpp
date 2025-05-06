@@ -62,21 +62,17 @@ static std::optional<int> WalletAppInit(ArgsManager& args, int argc, char* argv[
     }
     const bool missing_args{argc < 2};
     if (missing_args || HelpRequested(args) || args.IsArgSet("-version")) {
-        // !SCASH
-        std::string strUsage = strprintf("%s scash-wallet version", PACKAGE_NAME) + " " + FormatFullVersion() + "\n";
-        // !SCASH END
+        std::string strUsage = strprintf("%s scashx-wallet version", PACKAGE_NAME) + " " + FormatFullVersion() + "\n";
 
         if (args.IsArgSet("-version")) {
             strUsage += FormatParagraph(LicenseInfo());
         } else {
             strUsage += "\n"
-                        // !SCASH
-                        "scash-wallet is an offline tool for creating and interacting with " PACKAGE_NAME " wallet files.\n"
-                        "By default scash-wallet will act on wallets in the default mainnet wallet directory in the datadir.\n"
+                        "scashx-wallet is an offline tool for creating and interacting with " PACKAGE_NAME " wallet files.\n"
+                        "By default scashx-wallet will act on wallets in the default mainnet wallet directory in the datadir.\n"
                         "To change the target wallet, use the -datadir, -wallet and -regtest/-signet/-testnet arguments.\n\n"
                         "Usage:\n"
-                        "  scash-wallet [options] <command>\n";
-                        // !SCASH END
+                        "  scashx-wallet [options] <command>\n";
             strUsage += "\n" + args.GetHelpMessage();
         }
         tfm::format(std::cout, "%s", strUsage);
@@ -128,9 +124,7 @@ MAIN_FUNCTION
 
     const auto command = args.GetCommand();
     if (!command) {
-        // !SCASH
-        tfm::format(std::cerr, "No method provided. Run `scash-wallet -help` for valid methods.\n");
-        // !SCASH END
+        tfm::format(std::cerr, "No method provided. Run `scashx-wallet -help` for valid methods.\n");
         return EXIT_FAILURE;
     }
     if (command->args.size() != 0) {

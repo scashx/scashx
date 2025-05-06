@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -254,7 +255,5 @@ arith_uint256 UintToArith256(const uint256 &a)
     return b;
 }
 
-// SCASH
 // Explicit instantiations for base_uint<512>
 template class base_uint<512>;
-// !SCASH END

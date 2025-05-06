@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -37,7 +38,6 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
  */
 bool PermittedDifficultyTransition(const Consensus::Params& params, int64_t height, uint32_t old_nbits, uint32_t new_nbits);
 
-// !SCASH
 
 typedef enum POWVerifyMode_t
 {
@@ -80,6 +80,5 @@ uint32_t GetNextASERTWorkRequired(const CBlockIndex *pindexPrev,
                                   const Consensus::Params &params,
                                   const CBlockIndex *pindexAnchorBlock) noexcept;
 
-// !SCASH END
 
 #endif // BITCOIN_POW_H

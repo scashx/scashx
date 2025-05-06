@@ -14,14 +14,14 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "Scash"
-            VALUE "FileDescription",    "scashd (Scash node with a JSON-RPC server)"
+            VALUE "CompanyName",        "ScashX"
+            VALUE "FileDescription",    "scashxd (ScashX node with a JSON-RPC server)"
             VALUE "FileVersion",        PACKAGE_VERSION
-            VALUE "InternalName",       "scashd"
+            VALUE "InternalName",       "scashxd"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "scashd.exe"
-            VALUE "ProductName",        "scashd"
+            VALUE "OriginalFilename",   "scashxd.exe"
+            VALUE "ProductName",        "scashxd"
             VALUE "ProductVersion",     PACKAGE_VERSION
         END
     END

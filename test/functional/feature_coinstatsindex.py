@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (c) 2020-2022 The Bitcoin Core developers
 # Copyright (c) 2024 The Scash developers
+# Copyright (c) 2025 The Satoshi Cash-X developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test coinstatsindex across nodes.
@@ -46,10 +47,8 @@ class CoinStatsIndexTest(BitcoinTestFramework):
             [],
             ["-coinstatsindex"]
         ]
-        # !SCASH
         for args in self.extra_args:
             args.append("-datacarrier=1")
-        # !SCASH END
 
     def run_test(self):
         self.wallet = MiniWallet(self.nodes[0])

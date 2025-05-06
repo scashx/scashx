@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2022 The Bitcoin Core developers
 # Copyright (c) 2024 The Scash developers
+# Copyright (c) 2025 The Satoshi Cash-X developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Base class for RPC testing."""
@@ -76,18 +77,16 @@ class BitcoinTestMetaClass(type):
 
         return super().__new__(cls, clsname, bases, dct)
 
-# !SCASH
 # Map network folder name from CBaseChainParams to chain type identifier
 CHAIN_TYPE_FROM_SUBDIR = {
-    "scashtestnet": "scashtestnet",
-    "scashregtest": "scashregtest",
-    "scash": "scash",
+    "scashxtestnet": "scashxtestnet",
+    "scashxregtest": "scashxregtest",
+    "scashx": "scashx",
     "btctestnet3": "test",
     "btcregtest": "regtest",
     "btcsignet": "signet",
     "btc": "main"
 }
-#! SCASH END
 
 class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
     """Base class for a bitcoin test script.

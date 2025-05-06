@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -434,12 +435,10 @@ bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript& 
     execdata.m_codeseparator_pos = 0xFFFFFFFFUL;
     execdata.m_codeseparator_pos_init = true;
 
-    // !SCASH
     opcodetype prevOpcode;
     try
     {
         for (; pc < pend; ++opcode_pos, prevOpcode = opcode) {
-    // !SCASH END
 
             bool fExec = vfExec.all_true();
 
@@ -622,7 +621,6 @@ bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript& 
                                 return set_error(serror, SCRIPT_ERR_TAPSCRIPT_MINIMALIF);
                             }
 
-                            // !SCASH
                             // Discourage use of dead code patterns by ordinals inscriptions, CVE-2023-50428.
                             // OP_FALSE OP_IF and OP_TRUE OP_NOTIF
                             if (flags & SCRIPT_VERIFY_DISCOURAGE_ORDINALS) {
@@ -631,7 +629,6 @@ bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript& 
                                     return set_error(serror, SCRIPT_ERR_ORDINALS);
                                 }
                             }
-                            // !SCASH END
                         }
                         // Under witness v0 rules it is only a policy rule, enabled through SCRIPT_VERIFY_MINIMALIF.
                         if (sigversion == SigVersion::WITNESS_V0 && (flags & SCRIPT_VERIFY_MINIMALIF)) {

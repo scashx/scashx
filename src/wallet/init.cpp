@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -121,14 +122,12 @@ bool WalletInit::ParameterInteraction() const
         LogPrintf("%s: parameter interaction: -blocksonly=1 -> setting -walletbroadcast=0\n", __func__);
     }
 
-    // !SCASH
     ChainType chain = gArgs.GetChainType();
-    if (chain == ChainType::SCASHMAIN || chain == ChainType::SCASHREGTEST || chain == ChainType::SCASHTESTNET) {
+    if (chain == ChainType::SCASHXMAIN || chain == ChainType::SCASHXREGTEST || chain == ChainType::SCASHXTESTNET) {
         if (gArgs.GetBoolArg("-walletrbf", DEFAULT_WALLET_RBF)) {
             return InitError(Untranslated("RBF is not supported."));
         }
     }
-    // !SCASH END
 
     return true;
 }

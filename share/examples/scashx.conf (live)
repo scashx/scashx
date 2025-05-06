@@ -1,0 +1,24 @@
+# Global Settings
+rpcuser=user
+rpcpassword=password
+chain=scashx
+daemon=0            # Disable running node as daemon
+debug=0            # Disable debug logging
+listen=1            # Enable listen for incoming connections
+txindex=1           # Enable transaction indexing
+randomxfastmode=1   # Enable fast mode for RandomX
+fallbackfee=0.01    # Set fallback fee
+
+# Mainnet Configuration
+[scashx]
+dnsseed=1
+adddnsseed=seed.scashx.io
+adddnsseed=seed2.scashx.io
+
+# Testnet Configuration
+[scashxtestnet]
+addnode=45.76.143.162
+
+# Regtest Configuration
+[scashxregtest]
+addnode=45.76.143.162

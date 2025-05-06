@@ -1,5 +1,6 @@
 // Copyright (c) 2011-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -142,9 +143,7 @@ RPCHelpMan setlabel()
 
     CTxDestination dest = DecodeDestination(request.params[0].get_str());
     if (!IsValidDestination(dest)) {
-        // !SCASH
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Scash address");
-        // !SCASH END
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid ScashX address");
     }
 
     const std::string label{LabelFromValue(request.params[1])};

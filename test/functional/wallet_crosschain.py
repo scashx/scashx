@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (c) 2020-2022 The Bitcoin Core developers
 # Copyright (c) 2024 The Scash developers
+# Copyright (c) 2025 The Satoshi Cash-X developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -22,9 +23,7 @@ class WalletCrossChain(BitcoinTestFramework):
         self.add_nodes(self.num_nodes)
 
         # Switch node 1 to testnet before starting it.
-        #! SCASH
         self.nodes[1].chain = 'btctestnet3'
-        #! SCASH END
         self.nodes[1].extra_args = ['-maxconnections=0', '-prune=550'] # disable testnet sync
         self.nodes[1].replace_in_config([('regtest=', 'testnet='), ('[regtest]', '[test]')])
         self.start_nodes()

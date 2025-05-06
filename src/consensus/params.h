@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -14,9 +15,7 @@
 #include <map>
 #include <vector>
 
-// !SCASH
 #include <optional>
-// !SCASH END
 
 namespace Consensus {
 
@@ -150,7 +149,6 @@ struct Params {
         return std::numeric_limits<int>::max();
     }
 
-    // !SCASH
     bool fPowRandomX{false};
     uint32_t nRandomXEpochDuration;
 
@@ -163,8 +161,6 @@ struct Params {
         int64_t nPrevBlockTime;
     };
     std::optional<ASERTAnchor> asertAnchorParams;
-
-    // !SCASH END
 };
 
 } // namespace Consensus

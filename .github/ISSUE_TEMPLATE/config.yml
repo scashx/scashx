@@ -1,8 +1,8 @@
 blank_issues_enabled: true
 contact_links:
-  - name: Scash Security Policy
-    url: https://github.com/scash-project/scash/blob/scash_master/SECURITY-SCASH.md
+  - name: ScashX Security Policy
+    url: https://github.com/scashx/scashx/blob/scashx_master/SECURITY-SCASHX.md
     about: View security policy
-  - name: Scash Developers
-    url: https://github.com/scash-project
-    about: Scash Project homepage
+  - name: Satoshi Cash-X Developers
+    url: https://github.com/scashx
+    about: ScashX Project homepage

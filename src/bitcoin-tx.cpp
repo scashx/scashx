@@ -104,18 +104,14 @@ static int AppInitRawTx(int argc, char* argv[])
 
     if (argc < 2 || HelpRequested(gArgs) || gArgs.IsArgSet("-version")) {
         // First part of help message is specific to this utility
-        // !SCASH
-        std::string strUsage = PACKAGE_NAME " scash-tx utility version " + FormatFullVersion() + "\n";
-        // !SCASH END
+        std::string strUsage = PACKAGE_NAME " scashx-tx utility version " + FormatFullVersion() + "\n";
 
         if (gArgs.IsArgSet("-version")) {
             strUsage += FormatParagraph(LicenseInfo());
         } else {
             strUsage += "\n"
-                // !SCASH
-                "Usage:  scash-tx [options] <hex-tx> [commands]  Update hex-encoded scash transaction\n"
-                "or:     scash-tx [options] -create [commands]   Create hex-encoded scash transaction\n"
-                // !SCASH END
+                "Usage:  scashx-tx [options] <hex-tx> [commands]  Update hex-encoded scashx transaction\n"
+                "or:     scashx-tx [options] -create [commands]   Create hex-encoded scashx transaction\n"
                 "\n";
             strUsage += gArgs.GetHelpMessage();
         }

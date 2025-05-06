@@ -1,5 +1,6 @@
 // Copyright (c) 2011-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1035,14 +1036,12 @@ BOOST_AUTO_TEST_CASE(util_ReadWriteSettings)
     // Test error logging, and remove previously written setting.
     {
         ASSERT_DEBUG_LOG("Failed renaming settings file");
-        // !SCASH
         // Use GetDataDirNet() which includes network identifier instead of GetDataDirBase().
         // This fixes assertion failure if BTC mainnet folder is named instead of "".
         fs::remove(args1.GetDataDirNet() / "settings.json");
         fs::create_directory(args1.GetDataDirNet() / "settings.json");
         args2.WriteSettingsFile();
         fs::remove(args1.GetDataDirNet() / "settings.json");
-        // !SCASH END
     }
 }
 

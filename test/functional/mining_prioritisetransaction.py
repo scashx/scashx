@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (c) 2015-2022 The Bitcoin Core developers
 # Copyright (c) 2024 The Scash developers
+# Copyright (c) 2025 The Satoshi Cash-X developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the prioritisetransaction mining RPC."""
@@ -28,9 +29,7 @@ class PrioritiseTransactionTest(BitcoinTestFramework):
         self.extra_args = [[
             "-printpriority=1",
             "-datacarriersize=100000",
-            # !SCASH
             "-datacarrier=1",
-            # !SCASH END
         ]] * self.num_nodes
         self.supports_cli = False
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (c) 2023 The Bitcoin Core developers
 # Copyright (c) 2024 The Scash developers
+# Copyright (c) 2025 The Satoshi Cash-X developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test validateaddress for main chain"""
@@ -173,9 +174,7 @@ VALID_DATA = [
 class ValidateAddressMainTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
-        #! SCASH
         self.chain = "btc"  # main
-        #! SCASH END
         self.num_nodes = 1
         self.extra_args = [["-prune=899"]] * self.num_nodes
 

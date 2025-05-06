@@ -15,19 +15,17 @@ src/test/fuzz/fuzz
 src/test/test_bitcoin
 src/qt/test/test_bitcoin-qt
 
-# !SCASH
-src/scash
-src/scashd
-src/scash-cli
-src/scash-gui
-src/scash-node
-src/scash-tx
-src/scash-util
-src/scash-chainstate
-src/scash-wallet
-src/test/test_scash
-src/qt/test/test_scash-qt
-# !SCASH END
+src/scasxh
+src/scashxd
+src/scashx-cli
+src/scashx-gui
+src/scashx-node
+src/scashx-tx
+src/scashx-util
+src/scashx-chainstate
+src/scashx-wallet
+src/test/test_scashx
+src/qt/test/test_scashx-qt
 
 # autoreconf
 Makefile.in

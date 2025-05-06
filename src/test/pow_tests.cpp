@@ -1,5 +1,6 @@
 // Copyright (c) 2015-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -12,9 +13,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-// !SCASH
 #include <cmath>
-// !SCASH END
 
 
 BOOST_FIXTURE_TEST_SUITE(pow_tests, BasicTestingSetup)
@@ -183,14 +182,12 @@ void sanity_check_chainparams(const ArgsManager& args, ChainType chain_type)
 
     // check max target * 4*nPowTargetTimespan doesn't overflow -- see pow.cpp:CalculateNextWorkRequired()
 
-    // SCASH
     if (g_isRandomX && !consensus.fPowNoRetargeting) {
         arith_uint512 targ_max_512("0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
         targ_max_512 /= consensus.nPowTargetTimespan*4;
         arith_uint512 powLimit_512 = arith_uint512::from(UintToArith256(consensus.powLimit));
         BOOST_CHECK(powLimit_512 < targ_max_512);
     } else
-    // !SCASH END
     if (!consensus.fPowNoRetargeting) {
         arith_uint256 targ_max("0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
         targ_max /= consensus.nPowTargetTimespan*4;
@@ -218,25 +215,24 @@ BOOST_AUTO_TEST_CASE(ChainParams_SIGNET_sanity)
     sanity_check_chainparams(*m_node.args, ChainType::SIGNET);
 }
 
-// !SCASH
-BOOST_AUTO_TEST_CASE(ChainParams_SCASHREGTEST_sanity)
+BOOST_AUTO_TEST_CASE(ChainParams_SCASHXREGTEST_sanity)
 {
     g_isRandomX = true;
-    sanity_check_chainparams(*m_node.args, ChainType::SCASHREGTEST);
+    sanity_check_chainparams(*m_node.args, ChainType::SCASHXREGTEST);
     g_isRandomX = false;
 }
 
-BOOST_AUTO_TEST_CASE(ChainParams_SCASHTESTNET_sanity)
+BOOST_AUTO_TEST_CASE(ChainParams_SCASHXTESTNET_sanity)
 {
     g_isRandomX = true;
-    sanity_check_chainparams(*m_node.args, ChainType::SCASHTESTNET);
+    sanity_check_chainparams(*m_node.args, ChainType::SCASHXTESTNET);
     g_isRandomX = false;
 }
 
-BOOST_AUTO_TEST_CASE(ChainParams_SCASHMAIN_sanity)
+BOOST_AUTO_TEST_CASE(ChainParams_SCASHXMAIN_sanity)
 {
     g_isRandomX = true;
-    sanity_check_chainparams(*m_node.args, ChainType::SCASHMAIN);
+    sanity_check_chainparams(*m_node.args, ChainType::SCASHXMAIN);
     g_isRandomX = false;
 }
 
@@ -256,22 +252,22 @@ BOOST_AUTO_TEST_CASE(Check_Epoch_Calculation)
 BOOST_AUTO_TEST_CASE(Check_RandomX_Key_Generation)
 {
     // RandomX key is sha256d of seed string where the epoch number changes
-    // "Scash/RandomX/Epoch/1"
+    // "ScashX/RandomX/Epoch/1"
     uint256 hash = GetSeedHash(1);
-    BOOST_CHECK_EQUAL(hash, uint256S("ccbde830c787b2061cbd9515d9c83d411fcf04cc6e1e47dcc3903c0dee4b1536"));
-    // "Scash/RandomX/Epoch/999"
+    BOOST_CHECK_EQUAL(hash, uint256S("00dbf089477a1cd4ac7d64a81595ab22fe1e0e045954d0635f4b954bc3b3df00"));
+    // "ScashX/RandomX/Epoch/999"
     hash = GetSeedHash(999);
-    BOOST_CHECK_EQUAL(hash, uint256S("b8ea6d0f30d6f7250bd8f2f62c9d83a61e1391e14cff95888db3a89bbdd183d5"));
+    BOOST_CHECK_EQUAL(hash, uint256S("82107e0e65b970e0287a89f1afa78cc95a78bd755813ee481214152e295d634c"));
 }
 
 BOOST_AUTO_TEST_CASE(Check_RandomX_BlockHeader)
 {
     m_node.args->ForceSetArg("-randomxfastmode", "0"); // disable fast mode which requires at least 2GB of memory
     
-    const auto chainParams = CreateChainParams(*m_node.args, ChainType::SCASHTESTNET);
+    const auto chainParams = CreateChainParams(*m_node.args, ChainType::SCASHXTESTNET);
     const auto consensus = chainParams->GetConsensus();
 
-    // Sanity check: block header GetHash() function includes RandomX field when running as Scash
+    // Sanity check: block header GetHash() function includes RandomX field when running as ScashX
     assert(!g_isRandomX);
     BOOST_CHECK_NE(consensus.hashGenesisBlock, chainParams->GenesisBlock().GetHash());
     g_isRandomX = true;
@@ -331,10 +327,10 @@ BOOST_AUTO_TEST_CASE(Check_RandomX_BlockHeader)
     // Light verification can be useful when blocks are already known to be fully verified.
     // The trade-off is reduced security. For example, a RandomX hash value in the block header
     // can be chosen so that the commitment meets the target, even though the hash is invalid.
-    // rx = 0a4a15246bd06225436f4bbfa9f8c8e1c027435edd4dd6854295f877176b6607
-    // cm = 000023da558c59d4cadbb3dd60078a55be1c2e10ed9b3e43628cf609561d2392
+    // rx = 1cdd3b89dd7ff815d78f403c37d5d3ed853d6332beae928ed1c6526ccc969a05
+    // cm = 00001b9288bf6532b764c93d689f86cc79b19458bb5ae27baa366bb3a792f5aa
     block = chainParams->GenesisBlock().GetBlockHeader();
-    block.hashRandomX = uint256S("0a4a15246bd06225436f4bbfa9f8c8e1c027435edd4dd6854295f877176b6607");
+    block.hashRandomX = uint256S("1cdd3b89dd7ff815d78f403c37d5d3ed853d6332beae928ed1c6526ccc969a05");
     assert(CheckProofOfWorkRandomX(block, consensus, POW_VERIFY_COMMITMENT_ONLY));
     assert(!CheckProofOfWorkRandomX(block, consensus, POW_VERIFY_FULL));
 
@@ -347,23 +343,21 @@ BOOST_AUTO_TEST_CASE(Check_RandomX_BlockHeader)
 	char rx_cm[RANDOMX_HASH_SIZE];
     randomx_calculate_commitment(&block, sizeof(block), rx_hash.data(), rx_cm);
     assert(memcmp(rx_cm, rx_cm_bad, sizeof(rx_cm)) != 0);
-    BOOST_CHECK_EQUAL(uint256(std::vector<unsigned char>(rx_cm, rx_cm + sizeof(rx_cm))), uint256S("0000388a6a0aa5eaa14ce3aa066106e1d3f82a05b4a8fc6c6c7b128924a24868"));
+    BOOST_CHECK_EQUAL(uint256(std::vector<unsigned char>(rx_cm, rx_cm + sizeof(rx_cm))), uint256S("00000922ba3e0d5f9aa758a22dd73165912c858f50673a34b07a3ccdbe6e8dcb"));
 
     // Basic tests of GetRandomXCommitment()
     block = chainParams->GenesisBlock();
     uint256 cm = GetRandomXCommitment(chainParams->GenesisBlock());
-    BOOST_CHECK_EQUAL(cm, uint256S("0000388a6a0aa5eaa14ce3aa066106e1d3f82a05b4a8fc6c6c7b128924a24868"));
+    BOOST_CHECK_EQUAL(cm, uint256S("00000922ba3e0d5f9aa758a22dd73165912c858f50673a34b07a3ccdbe6e8dcb"));
     cm = GetRandomXCommitment(chainParams->GenesisBlock(), NULL);
-    BOOST_CHECK_EQUAL(cm, uint256S("0000388a6a0aa5eaa14ce3aa066106e1d3f82a05b4a8fc6c6c7b128924a24868"));
+    BOOST_CHECK_EQUAL(cm, uint256S("00000922ba3e0d5f9aa758a22dd73165912c858f50673a34b07a3ccdbe6e8dcb"));
     // set inHash parameter
     cm = GetRandomXCommitment(chainParams->GenesisBlock(), &block.hashRandomX);
-    BOOST_CHECK_EQUAL(cm, uint256S("0000388a6a0aa5eaa14ce3aa066106e1d3f82a05b4a8fc6c6c7b128924a24868"));
+    BOOST_CHECK_EQUAL(cm, uint256S("00000922ba3e0d5f9aa758a22dd73165912c858f50673a34b07a3ccdbe6e8dcb"));
     rx_hash = uint256(123);
     cm = GetRandomXCommitment(chainParams->GenesisBlock(), &rx_hash);
-    BOOST_CHECK_NE(cm, uint256S("0000388a6a0aa5eaa14ce3aa066106e1d3f82a05b4a8fc6c6c7b128924a24868"));
+    BOOST_CHECK_NE(cm, uint256S("00000922ba3e0d5f9aa758a22dd73165912c858f50673a34b07a3ccdbe6e8dcb"));
 }
-
-// !SCASH END
 
 
 // !BITCOINCASH
@@ -374,7 +368,7 @@ BOOST_AUTO_TEST_CASE(Check_RandomX_BlockHeader)
  * Source code:
  * https://gitlab.com/bitcoin-cash-node/bitcoin-cash-node/-/blob/0a5fa6246387c3a9498898ee5257ee6950c1b635/src/test/pow_tests.cpp
  *
- * Any changes to the Bitcoin Cash code because Scash has a different powlimit are marked with Scash guards.
+ * Any changes to the Bitcoin Cash code because ScashX has a different powlimit are marked with ScashX guards.
  */
 
 using CBlockIndexPtr = std::unique_ptr<CBlockIndex>;
@@ -415,12 +409,10 @@ double GetASERTApproximationError(const CBlockIndex *pindexPrev,
 }
 
 BOOST_AUTO_TEST_CASE(asert_difficulty_test) {
-    // !SCASH
     // Use BCH powLimit to replicate BCH tests
-    Consensus::Params mutableParams = CreateChainParams(*m_node.args, ChainType::SCASHMAIN)->GetConsensus();
+    Consensus::Params mutableParams = CreateChainParams(*m_node.args, ChainType::SCASHXMAIN)->GetConsensus();
     mutableParams.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
     std::vector<CBlockIndexPtr> blocks(3000 + 2*24*3600);
-    // !SCASH END
     mutableParams.asertAnchorParams.reset();  // clear hard-coded anchor block so that we may perform these below tests
     const Consensus::Params &params = mutableParams; // take a const reference    
     const arith_uint256 powLimit = UintToArith256(params.powLimit);
@@ -658,11 +650,9 @@ std::string StrPrintCalcArgs(const arith_uint256 refTarget,
 
 // Tests of the CalculateASERT function.
 BOOST_AUTO_TEST_CASE(calculate_asert_test) {
-    // !SCASH
     // Use BCH powLimit to replicate BCH tests
-    Consensus::Params params = CreateChainParams(*m_node.args, ChainType::SCASHMAIN)->GetConsensus();
+    Consensus::Params params = CreateChainParams(*m_node.args, ChainType::SCASHXMAIN)->GetConsensus();
     params.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-    // !SCASH END
     const int64_t nHalfLife = params.nASERTHalfLife;
 
     const arith_uint256 powLimit = UintToArith256(params.powLimit);
@@ -785,166 +775,15 @@ BOOST_AUTO_TEST_CASE(calculate_asert_test) {
     }
 }
 
-
-// !SCASH
-// Custom test similar to calculate_asert_test above, but using Scash powlimit
-BOOST_AUTO_TEST_CASE(calculate_asert_scash_test) {
-    Consensus::Params params = CreateChainParams(*m_node.args, ChainType::SCASHMAIN)->GetConsensus();
-    const int64_t nHalfLife = params.nASERTHalfLife;
-    const arith_uint256 powLimit = UintToArith256(params.powLimit);
-
-    uint32_t powLimit_nBits = powLimit.GetCompact();
-    uint32_t next_nBits;
-
-    arith_uint256 initialTarget = powLimit;
-    int64_t height = 0;
-
-    arith_uint256 nextTarget;
-
-    // The CalculateASERT function uses the absolute ASERT formulation
-    // and adds +1 to the height difference that it receives.
-    // The time difference passed to it must factor in the difference
-    // to the *parent* of the reference block.
-    // We assume the parent is ideally spaced in time before the reference block.
-    static const int64_t parent_time_diff = 600;
-
-    // Steady
-    nextTarget = CalculateASERT(initialTarget, params.nPowTargetSpacing, parent_time_diff + 600 /* nTimeDiff */, ++height, powLimit, nHalfLife);
-    BOOST_CHECK(nextTarget == initialTarget);
-
-    // A block that arrives in half the expected time
-    nextTarget = CalculateASERT(initialTarget, params.nPowTargetSpacing, parent_time_diff + 600 + 300, ++height, powLimit, nHalfLife);
-    BOOST_CHECK(nextTarget < powLimit);
-
-    // Fast periods cannot increase target beyond POW limit, even if we try to overflow nextTarget.
-    // prevTarget is a uint256, so 256*2 = 512 days would overflow nextTarget unless CalculateASERT
-    // correctly detects this error
-    arith_uint256 prevTarget = nextTarget;
-    nextTarget = CalculateASERT(prevTarget, params.nPowTargetSpacing, parent_time_diff + 512*144*600, 0, powLimit, nHalfLife);
-    next_nBits = nextTarget.GetCompact();
-    BOOST_CHECK(next_nBits == powLimit_nBits);
-
-    // We also need to watch for underflows on nextTarget. We need to withstand an extra ~470 days worth of blocks.
-    // This should bring down a powLimit target to a minimum target of 1.
-    nextTarget = CalculateASERT(powLimit, params.nPowTargetSpacing, 0, 2*(256-21)*144, powLimit, nHalfLife);
-    next_nBits = nextTarget.GetCompact();
-    BOOST_CHECK_EQUAL(next_nBits, arith_uint256(1).GetCompact());
-
-    // We simulate what happens if we are currently at block 19382, and we activate ASERT DAA at block 19383,
-    // using block 1 as anchor to account for drift, where blocks have been faster than expected since genesis.
-    // Prev target: 000000007b9d9000000000000000000000000000000000000000000000000000
-    // Prev nbits:  0x1c7b9d90
-    // Next target: 0000000000000000086ee5141700000000000000000000000000000000000000
-    // Next nbits:  0x18086ee5
-    // Result is difficulty increases.
-    static const int64_t genesis_time = 1708655094;
-    static const int64_t block_1_time = 1708650456;
-    static const int64_t block_19382_time = 1714085302;
-    uint32_t block_19382_nBits = 0x1c7b9d90;
-    prevTarget = arith_uint256().SetCompact(block_19382_nBits);
-
-    nextTarget = CalculateASERT(prevTarget, params.nPowTargetSpacing, block_19382_time - genesis_time, 19382 - 1, powLimit, nHalfLife);
-    BOOST_CHECK(nextTarget < prevTarget);
-    BOOST_CHECK(nextTarget.GetCompact() == 0x18086ee5);
-
-    // We simulate what happens if we are currently at block 19382, and we activate ASERT DAA at block 19383,
-    // using block 1 as the anchor to account for drift since genesis.
-    // In this example, it has taken 135 days to mine 19382 blocks, about 1 day slower than expected.
-    // Prev target: 000000007b9d9000000000000000000000000000000000000000000000000000
-    // Prev nbits:  0x1c7b9d90
-    // nextTarget=  000000008e24d2d8700000000000000000000000000000000000000000000000
-    // next nBits=  0x1d008e24
-    // Result is difficulty decreases a little bit.
-    nextTarget = CalculateASERT(prevTarget, params.nPowTargetSpacing, 135 * 24 * 3600, 19382 - 1, powLimit, nHalfLife);
-    BOOST_CHECK(nextTarget > prevTarget);
-    BOOST_CHECK(nextTarget.GetCompact() == 0x1d008e24);
-
-    // Using the example above, we simulate what happens if there has been a withdrawal of hashpower
-    // and it had taken 185 days to mine the blocks, which is 50 days longer than expected.
-    // The result is that the difficulty decreases to 1.
-    nextTarget = CalculateASERT(prevTarget, params.nPowTargetSpacing, 185 * 24 * 3600, 19382 - 1, powLimit, nHalfLife);
-    BOOST_CHECK(nextTarget == powLimit);
-    BOOST_CHECK(nextTarget.GetCompact() == powLimit_nBits);
-
-    // We simulate what happens if we are currently at block 19382, and we activate ASERT DAA at block 19383,
-    // using block 18144 as the anchor block, which is also the block when difficulty last changed with legacy DAA.
-    // Prev target: 000000007b9d9000000000000000000000000000000000000000000000000000
-    // Prev nbits:  0x1c7b9d90
-    // Next target: 00000001ffafd88cc00000000000000000000000000000000000000000000000
-    // Prev nBits:  0x1d01ffaf
-    // Result is difficulty decreases.
-    static const int64_t block_18143_time = 1712987784;
-    static const int64_t block_18144_time = 1712987795;
-    uint32_t block_18144_nBits = 0x1c7b9d90;
-    prevTarget = arith_uint256().SetCompact(block_18144_nBits);
-
-    nextTarget = CalculateASERT(prevTarget, params.nPowTargetSpacing, block_19382_time - block_18143_time, 19382 - 18144, powLimit, nHalfLife);
-    BOOST_CHECK(nextTarget > prevTarget);
-    BOOST_CHECK(nextTarget.GetCompact() == 0x1d01ffaf);
-
-    // Define a structure holding parameters to pass to CalculateASERT.
-    // We are going to check some expected results  against a vector of
-    // possible arguments.
-    struct calc_params {
-        arith_uint256 refTarget;
-        int64_t targetSpacing;
-        int64_t timeDiff;
-        int64_t heightDiff;
-        arith_uint256 expectedTarget;
-        uint32_t expectednBits;
-    };
-
-    // Define some named input argument values
-    const arith_uint256 SINGLE_300_TARGET { "00000ffb1f004e00000000000000000000000000000000000000000000000000" };
-    const arith_uint256 FUNNY_REF_TARGET { "000000008000000000000000000fffffffffffffffffffffffffffffffffffff" };
-
-    // Define our expected input and output values.
-    // The timeDiff entries exclude the `parent_time_diff` - this is
-    // added in the call to CalculateASERT in the test loop.
-    const std::vector<calc_params> calculate_args = {
-
-        /* refTarget, targetSpacing, timeDiff, heightDiff, expectedTarget, expectednBits */
-
-        { powLimit, 600, 0, 2*144, powLimit >> 1, 0x1e07ffff }, // BCH 0x1c7fffff },
-        { powLimit, 600, 0, 4*144, powLimit >> 2, 0x1e03ffff }, // BCH 0x1c3fffff },
-        { powLimit >> 1, 600, 0, 2*144, powLimit >> 2, 0x1e03ffff }, // BCH 0x1c3fffff },
-        { powLimit >> 2, 600, 0, 2*144, powLimit >> 3, 0x1e01ffff }, // BCH 0x1c1fffff },
-        { powLimit >> 3, 600, 0, 2*144, powLimit >> 4, 0x1e00ffff }, // BCH 0x1c0fffff },
-        { powLimit, 600, 0, 2*(256-22)*144, 3, 0x01030000 }, // BCH -34
-        { powLimit, 600, 0, 2*(256-22)*144 + 119, 3, 0x01030000 }, // BCH -34
-        { powLimit, 600, 0, 2*(256-22)*144 + 120, 2, 0x01020000 }, // BCH -34
-        { powLimit, 600, 0, 2*(256-21)*144-1, 2, 0x01020000 }, // BCH -33
-        { powLimit, 600, 0, 2*(256-21)*144, 1, 0x01010000 }, // BCH -33  // 1 bit less since we do not need to shift to 0
-        { powLimit, 600, 0, 2*(256-20)*144, 1, 0x01010000 }, // BCH -32  // more will not decrease below 1
-        { 1, 600, 0, 2*(256-20)*144, 1, 0x01010000 }, // BCH -32
-        { powLimit, 600, 2*(512-20)*144, 0, powLimit, powLimit_nBits }, // BCH -32
-        { 1, 600, (512-40)*144*600, 0, powLimit, powLimit_nBits },
-        { powLimit, 600, 300, 1, SINGLE_300_TARGET, 0x1e0ffb1f }, // BCH 0x1d00ffb1 },  // clamps to powLimit
-        { FUNNY_REF_TARGET, 600, 600*2*33*144, 0, powLimit, powLimit_nBits }, // confuses any attempt to detect overflow by inspecting result
-        { 1, 600, 600*2*256*144, 0, powLimit, powLimit_nBits }, // overflow to exactly 2^256
-        { 1, 600, 600*2*236*144 - 1, 0, arith_uint256(0xffff8) << 216, 0x1e0ffff8 }, // BCH << 204, powLimit_nBits }, // just under powlimit (not clamped) yet over powlimit_nbits
-    };
-
-    int i=0;
-    for (auto& v : calculate_args) {
-        nextTarget = CalculateASERT(v.refTarget, v.targetSpacing, parent_time_diff + v.timeDiff, v.heightDiff, powLimit, nHalfLife);
-        next_nBits = nextTarget.GetCompact();
-        const auto failMsg =
-            StrPrintCalcArgs(v.refTarget, v.targetSpacing, parent_time_diff + v.timeDiff, v.heightDiff, v.expectedTarget, v.expectednBits)
-            + strprintf("nextTarget=  %s\nnext nBits=  0x%08x\n", nextTarget.ToString(), next_nBits);
-        BOOST_CHECK_MESSAGE(nextTarget == v.expectedTarget && next_nBits == v.expectednBits, failMsg);
-    }
-}
-
 /**
  * Test transition of legacy Bitcoin DAA to ASERT algorithm with anchor block.
  */
-BOOST_AUTO_TEST_CASE(asert_activation_anchor_scash_test) {
-    Consensus::Params params = CreateChainParams(*m_node.args, ChainType::SCASHMAIN)->GetConsensus();
+BOOST_AUTO_TEST_CASE(asert_activation_anchor_scashx_test) {
+    Consensus::Params params = CreateChainParams(*m_node.args, ChainType::SCASHXMAIN)->GetConsensus();
     params.asertAnchorParams.reset(); // clear hard-coded anchor block so that we may test the activation below
     CBlockHeader blkHeaderDummy;
 
-    // an arbitrary compact target for our chain (based on Scash chain ~ Apr 26 2024).
+    // an arbitrary compact target for our chain (based on ScashX chain ~ Apr 26 2024).
     uint32_t initialBits = 0x1c7b9d90;
 
     // Block store for anonymous blocks; needs to be big enough to fit all generated blocks in this test.
@@ -1014,7 +853,6 @@ BOOST_AUTO_TEST_CASE(asert_activation_anchor_scash_test) {
     const uint32_t powLimit_nBits = UintToArith256(params.powLimit).GetCompact();
     BOOST_CHECK(powLimit_nBits == nextBits);
 }
-// !SCASH END
 
 // !BITCOINCASH END
 

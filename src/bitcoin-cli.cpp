@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -430,7 +431,6 @@ private:
     std::string ChainToString() const
     {
         switch (gArgs.GetChainType()) {
-        // !SCASH
         case ChainType::TESTNET:
             return " btctestnet";
         case ChainType::SIGNET:
@@ -439,13 +439,12 @@ private:
             return " btcregtest";
         case ChainType::MAIN:
             return " btc";
-        case ChainType::SCASHTESTNET:
-            return " scashtestnet";
-        case ChainType::SCASHREGTEST:
-            return " scashregtest";
-        case ChainType::SCASHMAIN:
-            return " scash";
-        // !SCASH END
+        case ChainType::SCASHXTESTNET:
+            return " scashxtestnet";
+        case ChainType::SCASHXREGTEST:
+            return " scashxregtest";
+        case ChainType::SCASHXMAIN:
+            return " scashx";
         }
         assert(false);
     }

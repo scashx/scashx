@@ -134,9 +134,7 @@ void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)
     widget->setFont(fixedPitchFont());
     // We don't want translators to use own addresses in translations
     // and this is the only place, where this address is supplied.
-    // !SCASH
-    widget->setPlaceholderText(QObject::tr("Enter a Scash address (e.g. %1)").arg(
-    // !SCASH END
+    widget->setPlaceholderText(QObject::tr("Enter a ScashX address (e.g. %1)").arg(
         QString::fromStdString(DummyAddress(Params()))));
     widget->setValidator(new BitcoinAddressEntryValidator(parent));
     widget->setCheckValidator(new BitcoinAddressCheckValidator(parent));
@@ -150,10 +148,8 @@ void AddButtonShortcut(QAbstractButton* button, const QKeySequence& shortcut)
 bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
 {
     // return if URI is not valid or is no bitcoin: URI
-    // !SCASH
-    if(!uri.isValid() || uri.scheme() != QString("scash"))
+    if(!uri.isValid() || uri.scheme() != QString("scashx"))
         return false;
-    // !SCASH END
 
     SendCoinsRecipient rv;
     rv.address = uri.path();
@@ -215,9 +211,7 @@ QString formatBitcoinURI(const SendCoinsRecipient &info)
 {
     bool bech_32 = info.address.startsWith(QString::fromStdString(Params().Bech32HRP() + "1"));
 
-    // !SCASH
-    QString ret = QString("scash:%1").arg(bech_32 ? info.address.toUpper() : info.address);
-    // !SCASH END
+    QString ret = QString("scashx:%1").arg(bech_32 ? info.address.toUpper() : info.address);
     int paramCount = 0;
 
     if (info.amount)
@@ -515,11 +509,9 @@ bool LabelOutOfFocusEventFilter::eventFilter(QObject* watched, QEvent* event)
 fs::path static StartupShortcutPath()
 {
     ChainType chain = gArgs.GetChainType();
-    // !SCASH
-    if (chain == ChainType::SCASHMAIN)
-        return GetSpecialFolderPath(CSIDL_STARTUP) / "Scash.lnk";
-    return GetSpecialFolderPath(CSIDL_STARTUP) / fs::u8path(strprintf("Scash (%s).lnk", ChainTypeToString(chain)));
-    // !SCASH END
+    if (chain == ChainType::SCASHXMAIN)
+        return GetSpecialFolderPath(CSIDL_STARTUP) / "ScashX.lnk";
+    return GetSpecialFolderPath(CSIDL_STARTUP) / fs::u8path(strprintf("ScashX (%s).lnk", ChainTypeToString(chain)));
 }
 
 bool GetStartOnSystemStartup()
@@ -598,11 +590,9 @@ fs::path static GetAutostartDir()
 fs::path static GetAutostartFilePath()
 {
     ChainType chain = gArgs.GetChainType();
-    // !SCASH
-    if (chain == ChainType::SCASHMAIN)
-        return GetAutostartDir() / "scash.desktop";
-    return GetAutostartDir() / fs::u8path(strprintf("scash-%s.desktop", ChainTypeToString(chain)));
-    // !SCASH END
+    if (chain == ChainType::SCASHXMAIN)
+        return GetAutostartDir() / "scashx.desktop";
+    return GetAutostartDir() / fs::u8path(strprintf("scashx-%s.desktop", ChainTypeToString(chain)));
 }
 
 bool GetStartOnSystemStartup()
@@ -646,12 +636,10 @@ bool SetStartOnSystemStartup(bool fAutoStart)
         // Write a bitcoin.desktop file to the autostart directory:
         optionFile << "[Desktop Entry]\n";
         optionFile << "Type=Application\n";
-        // !SCASH
-        if (chain == ChainType::SCASHMAIN)
-            optionFile << "Name=Scash\n";
+        if (chain == ChainType::SCASHXMAIN)
+            optionFile << "Name=ScashX\n";
         else
-            optionFile << strprintf("Name=Scash (%s)\n", ChainTypeToString(chain));
-        // !SCASH END
+            optionFile << strprintf("Name=ScashX (%s)\n", ChainTypeToString(chain));
         optionFile << "Exec=" << pszExePath << strprintf(" -min -chain=%s\n", ChainTypeToString(chain));
         optionFile << "Terminal=false\n";
         optionFile << "Hidden=false\n";

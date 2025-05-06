@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,7 +12,6 @@
 #include <primitives/block.h>
 #include <uint256.h>
 
-// !SCASH
 #include <common/args.h>
 #include <crypto/sha256.h>
 #include <randomx.h>
@@ -66,7 +66,6 @@ static LRURandomXVMRef cache_rx_vm_light;
 static LRURandomXVMRef cache_rx_vm_fast;
 static LRURandomXDatasetRef cache_rx_dataset;
 
-// !SCASH END
 
 
 // !BITCOINCASH
@@ -77,7 +76,7 @@ static LRURandomXDatasetRef cache_rx_dataset;
  * Source code:
  * https://gitlab.com/bitcoin-cash-node/bitcoin-cash-node/-/blob/4ee1083307d2aaac92dd7c409cc9d6f2eb52be78/src/pow.cpp
  *
- * Any changes to the Bitcoin Cash code because Scash has a different powlimit are marked with Scash guards.
+ * Any changes to the Bitcoin Cash code because ScashX has a different powlimit are marked with ScashX guards.
  */
 
 /**
@@ -186,10 +185,8 @@ arith_uint256 CalculateASERT(const arith_uint256 &refTarget,
     // We need some leading zero bits in powLimit in order to have room to handle
     // overflows easily. 32 leading zero bits is more than enough.
 
-    // !SCASH
-    // Scash has a higher powLimits and uses uint512 internally, so this check is disabled
+    // ScashX has a higher powLimits and uses uint512 internally, so this check is disabled
     // assert((powLimit >> 224) == 0);
-    // !SCASH END
 
     // Height diff should NOT be negative.
     assert(nHeightDiff >= 0);
@@ -232,7 +229,6 @@ arith_uint256 CalculateASERT(const arith_uint256 &refTarget,
         + (1ull << 47)
         ) >> 48);
 
-    // !SCASH
     // Intermediate computation uses 512 bit integers to avoid potential overflow from chain parameters.
     arith_uint512 nextTarget512 = arith_uint512::from(refTarget) * factor;
     arith_uint512 powLimit512 = arith_uint512::from(powLimit);
@@ -256,7 +252,6 @@ arith_uint256 CalculateASERT(const arith_uint256 &refTarget,
         nextTarget512 = powLimit512;
     }
     arith_uint256 nextTarget = arith_uint256::from(nextTarget512);
-    // !SCASH END
 
     if (nextTarget == 0) {
         // 0 is not a valid target, but 1 is.
@@ -277,14 +272,12 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     assert(pindexLast != nullptr);
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
-    // !SCASH
     // Use ASERT DAA if activated, otherwise use legacy Bitcoin DAA
     if (params.asertAnchorParams) {
         if (pindexLast->nHeight + 1 >= params.nASERTActivationHeight) {
             return GetNextASERTWorkRequired(pindexLast, pblock, params, *params.asertAnchorParams);
         }
     }
-    // !SCASH END
 
     // Only change once per difficulty adjustment interval
     if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
@@ -310,12 +303,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 
     // Go back by what we want to be 14 days worth of blocks
 
-    // !SCASH
     // Fix legacy Bitcoin off-by-one retargeting bug to prevent a time warp attack.
     // Difficulty is now correctly calculated over block intervals which overlap.
     int nHeightFirst = (g_isRandomX) ? std::max(0, pindexLast->nHeight - (int)params.DifficultyAdjustmentInterval()) :
                                        pindexLast->nHeight - (params.DifficultyAdjustmentInterval() - 1);
-    // !SCASH END
 
     assert(nHeightFirst >= 0);
     const CBlockIndex* pindexFirst = pindexLast->GetAncestor(nHeightFirst);
@@ -341,7 +332,6 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     arith_uint256 bnNew;
     bnNew.SetCompact(pindexLast->nBits);
 
-    // !SCASH
     // Intermediate computation uses 512 bit integers to avoid potential overflow from chain parameters.
     // No overflow with default Bitcoin chain parameters so behaviour remains the same.
     arith_uint512 bnNew512 = arith_uint512::from(bnNew);
@@ -352,7 +342,6 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     } else {
         bnNew = arith_uint256::from(bnNew512);
     }
-    // !SCASH END
 
     return bnNew.GetCompact();
 }
@@ -375,7 +364,6 @@ bool PermittedDifficultyTransition(const Consensus::Params& params, int64_t heig
         arith_uint256 largest_difficulty_target;
         largest_difficulty_target.SetCompact(old_nbits);
 
-        // !SCASH
         // Intermediate computation uses 512 bit integers to avoid potential overflow from chain parameters.
         // No overflow with default Bitcoin chain parameters so behaviour remains the same.
         arith_uint512 tmp = arith_uint512::from(largest_difficulty_target);
@@ -386,7 +374,6 @@ bool PermittedDifficultyTransition(const Consensus::Params& params, int64_t heig
         } else {
             largest_difficulty_target = arith_uint256::from(tmp);
         }
-        // !SCASH END
 
         // Round and then compare this new calculated value to what is
         // observed.
@@ -434,10 +421,9 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
     return true;
 }
 
-// !SCASH
 
 // Seed string contains an epoch integer and is sha256d hashed to derive the seed hash (RandomX key).
-static const char *RANDOMX_EPOCH_SEED_STRING = "Scash/RandomX/Epoch/%d";
+static const char *RANDOMX_EPOCH_SEED_STRING = "ScashX/RandomX/Epoch/%d";
 
 // Epoch is Unix time stamp in seconds divided by epoch duration in seconds.
 uint32_t GetEpoch(uint32_t nTimestamp, uint32_t nDuration) {
@@ -682,5 +668,3 @@ bool CheckProofOfWorkRandomX(const CBlockHeader& block, const Consensus::Params&
 
     return true;
 }
-
-// !SCASH END

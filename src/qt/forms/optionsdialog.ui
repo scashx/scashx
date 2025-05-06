@@ -789,8 +789,8 @@
          <item>
           <widget class="QLabel" name="moneyFont_preview">
            <property name="text">
-            <string notr="true">111.11111111 SCASH
-909.09090909 SCASH</string>
+            <string notr="true">111.11111111 SCASHX
+909.09090909 SCASHX</string>
            </property>
           </widget>
          </item>

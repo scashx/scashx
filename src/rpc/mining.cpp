@@ -1,6 +1,7 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -133,7 +134,6 @@ static bool GenerateBlock(ChainstateManager& chainman, CBlock& block, uint64_t& 
     block_out.reset();
     block.hashMerkleRoot = BlockMerkleRoot(block);
 
-    // !SCASH
     uint256 rxHash;
     rxHash.SetNull();
     while (max_tries > 0 &&
@@ -143,7 +143,6 @@ static bool GenerateBlock(ChainstateManager& chainman, CBlock& block, uint64_t& 
         --max_tries;
     }
     block.hashRandomX = rxHash;
-    // !SCASH END
 
     if (max_tries == 0 || chainman.m_interrupt) {
         return false;
@@ -225,9 +224,7 @@ static RPCHelpMan generatetodescriptor()
         "Mine to a specified descriptor and return the block hashes.",
         {
             {"num_blocks", RPCArg::Type::NUM, RPCArg::Optional::NO, "How many blocks are generated."},
-            // !SCASH
-            {"descriptor", RPCArg::Type::STR, RPCArg::Optional::NO, "The descriptor to send the newly generated Scash to."},
-            // !SCASH END
+            {"descriptor", RPCArg::Type::STR, RPCArg::Optional::NO, "The descriptor to send the newly generated ScashX to."},
             {"maxtries", RPCArg::Type::NUM, RPCArg::Default{DEFAULT_MAX_TRIES}, "How many iterations to try."},
         },
         RPCResult{
@@ -271,9 +268,7 @@ static RPCHelpMan generatetoaddress()
         "Mine to a specified address and return the block hashes.",
          {
              {"nblocks", RPCArg::Type::NUM, RPCArg::Optional::NO, "How many blocks are generated."},
-             // !SCASH
-             {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The address to send the newly generated Scash to."},
-             // !SCASH END
+             {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The address to send the newly generated ScashX to."},
              {"maxtries", RPCArg::Type::NUM, RPCArg::Default{DEFAULT_MAX_TRIES}, "How many iterations to try."},
          },
          RPCResult{
@@ -284,9 +279,7 @@ static RPCHelpMan generatetoaddress()
          RPCExamples{
             "\nGenerate 11 blocks to myaddress\n"
             + HelpExampleCli("generatetoaddress", "11 \"myaddress\"")
-            // !SCASH
-            + "If you are using the " PACKAGE_NAME " wallet, you can get a new address to send the newly generated Scash to with:\n"
-            // !SCASH END
+            + "If you are using the " PACKAGE_NAME " wallet, you can get a new address to send the newly generated ScashX to with:\n"
             + HelpExampleCli("getnewaddress", "")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
@@ -315,9 +308,7 @@ static RPCHelpMan generateblock()
     return RPCHelpMan{"generateblock",
         "Mine a set of ordered transactions to a specified address or descriptor and return the block hash.",
         {
-            // !SCASH
-            {"output", RPCArg::Type::STR, RPCArg::Optional::NO, "The address or descriptor to send the newly generated Scash to."},
-            // !SCASH END
+            {"output", RPCArg::Type::STR, RPCArg::Optional::NO, "The address or descriptor to send the newly generated ScashX to."},
             {"transactions", RPCArg::Type::ARR, RPCArg::Optional::NO, "An array of hex strings which are either txids or raw transactions.\n"
                 "Txids must reference transactions currently in the mempool.\n"
                 "All transactions must be valid and in valid order, otherwise the block will be rejected.",
@@ -663,9 +654,7 @@ static RPCHelpMan getblocktemplate()
                 {RPCResult::Type::STR_HEX, "signet_challenge", /*optional=*/true, "Only on signet"},
                 {RPCResult::Type::STR_HEX, "default_witness_commitment", /*optional=*/true, "a valid witness commitment for the unmodified block template"},
 
-                // !SCASH
                 {RPCResult::Type::NUM, "rx_epoch_duration", "seconds"},
-                // !SCASH END
             }},
         },
         RPCExamples{
@@ -985,9 +974,7 @@ static RPCHelpMan getblocktemplate()
         result.pushKV("default_witness_commitment", HexStr(pblocktemplate->vchCoinbaseCommitment));
     }
 
-    // !SCASH
     result.pushKV("rx_epoch_duration", consensusParams.nRandomXEpochDuration);
-    // !SCASH END
 
     return result;
 },

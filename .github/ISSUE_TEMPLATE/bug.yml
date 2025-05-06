@@ -5,10 +5,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## This issue tracker is only for technical issues related to Scash.
+        ## This issue tracker is only for technical issues related to ScashX.
 
         * General Bitcoin questions and/or support requests should use Bitcoin StackExchange at https://bitcoin.stackexchange.com.
-        * For reporting Scash security issues, please read instructions in https://github.com/scash-project/scash/blob/scash_master/SECURITY-SCASH.md
+        * For reporting ScashX security issues, please read instructions in https://github.com/scashx/scashx/blob/scashx_master/SECURITY-SCASHX.md
         * If the node is "stuck" during sync or giving "block checksum mismatch" errors, please ensure your hardware is stable by running `memtest` and observe CPU temperature with a load-test tool such as `linpack` before creating an issue.
 
         ----
@@ -50,14 +50,14 @@ body:
       description: |
         Please copy and paste any relevant log output or attach a debug log file.
 
-        You can find the debug.log in your [data dir.](https://github.com/scash-project/scash/blob/scash_master/doc/files.md#data-directory-location)
+        You can find the debug.log in your [data dir.](https://github.com/scashx/scashx/blob/scashx_master/doc/files.md#data-directory-location)
 
         Please be aware that the debug log might contain personally identifying information.
     validations:
       required: false
   - type: dropdown
     attributes:
-      label: How did you obtain Scash
+      label: How did you obtain ScashX
       multiple: false
       options:
         - Compiled from source
@@ -69,9 +69,9 @@ body:
   - type: input
     id: core-version
     attributes:
-      label: What version of Scash are you using?
-      description: Run `scashd --version`
-      placeholder: e.g. v1.x.x-codename-core-26.0.0 or master@e1bf547
+      label: What version of ScashX are you using?
+      description: Run `scashxd --version`
+      placeholder: e.g. v1.x.x-codename-core-26.0.0 or master@e1bf548
     validations:
       required: true
   - type: input

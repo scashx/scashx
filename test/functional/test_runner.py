@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2022 The Bitcoin Core developers
 # Copyright (c) 2024 The Scash developers
+# Copyright (c) 2025 The Satoshi Cash-X developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Run regression test suite.
@@ -266,10 +267,8 @@ BASE_SCRIPTS = [
     'p2p_v2_transport.py',
     'p2p_v2_encrypted.py',
     'p2p_v2_earlykeyresponse.py',
-    # !SCASH
     'p2p_invalid_block_pow.py',
     'feature_suspicious_reorg.py',
-    # !SCASH END
     'example_test.py',
     'mempool_accept_v3.py',
     'wallet_txn_doublespend.py --legacy-wallet',

@@ -1,5 +1,6 @@
 // Copyright (c) 2012-2022 The Bitcoin Core developers
 // Copyright (c) 2024 The Scash developers
+// Copyright (c) 2025 The Satoshi Cash-X developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,9 +22,7 @@
  * for both bitcoind and bitcoin-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-// !SCASH
-const std::string CLIENT_NAME("Scash");
-// !SCASH END
+const std::string CLIENT_NAME("ScashX");
 
 #ifdef HAVE_BUILD_INFO
 #include <obj/build.h>
@@ -93,19 +92,15 @@ std::string CopyrightHolders(const std::string& strPrefix)
         strCopyrightHolders += "\n" + strPrefix + "The Bitcoin Core developers";
     }
 
-    // !SCASH
-    if (copyright_devs.find("Scash") == std::string::npos) {
-        strCopyrightHolders += "\nCopyright (C) 2024 The Scash developers";
+    if (copyright_devs.find("ScashX") == std::string::npos) {
+        strCopyrightHolders += "\nCopyright (C) 2024 The Satoshi Cash-X developers";
     }
-    // !SCASH END
     return strCopyrightHolders;
 }
 
 std::string LicenseInfo()
 {
-    // !SCASH
-    const std::string URL_SOURCE_CODE = "<https://github.com/scash-project/scash>";
-    // !SCASH END
+    const std::string URL_SOURCE_CODE = "<https://github.com/scashx/scashx>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i-%i").translated, 2009, COPYRIGHT_YEAR) + " ") + "\n" +
            "\n" +
