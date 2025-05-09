@@ -1,4 +1,4 @@
-1.0.0 Release Notes
+1.0.1 Release Notes
 ===================
 
 ScashX can be built from source and pre-compiled binaries are available.
@@ -44,6 +44,12 @@ ScashX is based on Bitcoin Core 27.0. See a list of changes in the [Bitcoin Rele
 Notable changes
 ===============
 
+This Release:
+-------------
+- Added checkpoint
+  
+Previous Releases:
+------------------
 Proof of work
 -------------
 - The SHA256 proof of work has been replaced with RandomX.  See the the [Scash Protocol spec](https://github.com/scashx/scashx/blob/scashx_master/doc/scashx-protocol-spec.md).
@@ -89,6 +95,5 @@ Miscellaneous
 - Fix RPC help/error messages
 - Known issue
   - Building with configure option --disable-wallet currently fails.
-
 
 
