@@ -5,7 +5,7 @@ ScashX can be built from source and pre-compiled binaries are available.
 
 ScashX versioning is as follows:
 ```
-ScashX version v1.x.x-novaelis-core-26.0.0 
+ScashX version v1.x.x-novaelis-core-27.0.0 
               |          |            |
             SCASH     CODENAME    BITCOIN CORE
 ```
