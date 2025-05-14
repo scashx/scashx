@@ -1,6 +1,6 @@
 # SCASHX BUILD NOTES
 
-## ScashX: Bitcoin Fork for Home Mining
+## ScashX: Bitcoin Fork for Accessible Home Mining
 
 ScashX (Satoshi Cash-X) is a modified fork of Bitcoin Core v27.0 which adds a new chain option to make cryptocurrency mining feasible again on standard home computers.
 
