@@ -49,7 +49,7 @@ Notable changes
 
 This Release:
 -------------
-- Upgrade to Bitcoin 28.1
+- Upgrade to Bitcoin 28.1. See [Bitcoin 28.1 release notes](https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-28.1.md#notable-changes) for further details.
   
 Previous Releases:
 ------------------
