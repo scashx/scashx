@@ -1,5 +1,5 @@
-Bitcoin Core integration/staging tree
-=====================================
+ScashX Introduction
+===================
 
 https://bitcoincore.org
 
